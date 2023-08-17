@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "ChatServer": {
+      "commandName": "Project",
+      "commandLineArgs": "--uniqueID 1 --name GameServer --port 3202 --maxConnectionNumber 1000  --maxRequestLength 65000 --receiveBufferSize 65000 --sendBufferSize 65000 --roomMaxCount 50 --roomMaxUserCount 1000 --roomStartNumber 0"
+    }
+  }
+}

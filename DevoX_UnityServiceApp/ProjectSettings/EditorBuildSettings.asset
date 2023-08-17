@@ -6,9 +6,21 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/AwakeScene.unity
-    guid: bffb894a988de044dac44370f2ec0695
-  - enabled: 1
     path: Assets/Scenes/LobbyScene.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
+  - enabled: 1
+    path: Assets/Scenes/LoginScene.unity
+    guid: fe2abf1c72f7083449aa6903ff1d6730
+  - enabled: 1
+    path: Assets/Scenes/ClassScene_0.unity
+    guid: 1c698387f4196ca49b046ef54e2df1e0
+  - enabled: 1
+    path: Assets/Scenes/ClassScene_1.unity
+    guid: f86e5e044cfb88d48a1f094dec2ed300
+  - enabled: 1
+    path: Assets/Scenes/ClassScene_2.unity
+    guid: ac8151ac37f8b0d4fa23ce8439bf398a
+  - enabled: 1
+    path: Assets/Scenes/QuizScene.unity
+    guid: eb635191be2e1914680ae452638cba6c
   m_configObjects: {}
