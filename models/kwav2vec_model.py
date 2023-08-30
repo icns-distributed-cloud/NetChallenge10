@@ -7,90 +7,6 @@ from tqdm import tqdm
 
 from transformers import Wav2Vec2Processor, Wav2Vec2Model
 
-'''
-class SpeechExtractorForCrossAttention():
-    def __init__(self, config):
-        self.args = config
-        self.file_path = self.args.path
-        self.max_len = self.args.max_length
-
-        # pretrained
-        self.processor = Wav2Vec2Processor.from_pretrained("kresnik/wav2vec2-large-xlsr-korean")
-        self.encoder = Wav2Vec2Model.from_pretrained("kresnik/wav2vec2-large-xlsr-korean")
-  
-        # 음성파일데이터를 모두 미리 인코딩하여 데이터셋 생성
-        # 한번 인코딩해두면, 이후 재 학습할 때 빠르게 학습할 수 
-        #if 'hidden_states' not in os.listdir(self.args.path):
-        print("Wav Embedding Save")
-        os.makedirs(self.args.path + 'hidden_states', exist_ok=True)
-        embed_path = self.args.path + 'hidden_states/'
-        self.encoder.to(self.args.cuda)
-        len_ = len(os.listdir(self.args.path))
-        # if 'hidden_state.json' not in embed_files or 'extract_feature.json' not in embed_files:
-        #self.encoder.eval()
-        with torch.no_grad():
-            for idx, i in enumerate(os.listdir(self.args.path)):
-                print('{}/{}'.format(idx + 1, len_))
-                name, ext = os.path.splitext(i)
-                if ext == '.wav' and not (os.path.isfile(embed_path+name+'.pt')):
-'''
-'''
-                        for j in tqdm(os.listdir(self.args.path)):
-                            if os.path.splitext(j)[-1] == '.wav':
-                                wav = self.readfile(j)
-                                encoded = self._encoding(wav, output_hidden_state=False)
-                                pooled_hidden = encoded.last_hidden_state
-                                torch.save(pooled_hidden, embed_path + j[:-4] + '.pt')
-                                torch.cuda.empty_cache()
-'''
-'''
-                    wav = self.readfile(i)
-                    encoded = self._encoding(wav, output_hidden_state=False)
-                    pooled_hidden = encoded.last_hidden_state
-                    torch.save(pooled_hidden, embed_path + i[:-4] + '.pt')
-                    torch.cuda.empty_cache()
-
-            print("Wav Embedding Save finished")
-
-    def readfile(self,file_name):
-        if file_name[0] in ['M', 'F']:
-            path = self.args.path + 'emotiondialogue/' + file_name
-        else:
-            path = self.args.path + file_name
-        wav, _ = sf.read(path)
-        return wav
-
-    def _encoding(self,raw_wav,output_hidden_state=False):
-        extract_feature = encoding(raw_wavs=raw_wav,
-                                   cuda=self.args.cuda,
-                                   encoder=self.encoder,
-                                   processor=self.processor,
-                                   return_hidden_state=output_hidden_state)
-
-        return extract_feature
-
-    def __call__(self,batch):
-        hidden_batch = torch.Tensor().to(self.args.cuda)
-        file_name = [data['wav'][:-4]+'.pt' for data in batch]
-
-        for data in file_name:
-            # 미리 인코딩한 데이터셋 
-            hidden = torch.load(self.file_path+'hidden_states/'+data,map_location=self.args.cuda)
-            seq = hidden.size()[1]
-            if seq > self.max_len:
-                # truncation
-                hidden = hidden[:,:self.max_len,:].to(self.args.cuda)
-            elif seq < self.max_len:
-                
-                # padding
-                pad = torch.Tensor([[[0]*1024]*(self.max_len-seq)]).to(self.args.cuda)
-                hidden = torch.cat([hidden,pad], dim=1)
-            try:
-                hidden_batch = torch.cat([hidden_batch,hidden],dim=0)
-            except:
-                continue
-        return hidden_batch
-'''
 def encoding(raw_wavs,cuda, processor=None, encoder=None, return_hidden_state=False):
     assert bool(processor) == bool(encoder)
 
@@ -164,16 +80,15 @@ class Kwav2vec():
 
 
 class Kwav2vec_classfier(nn.Module):
-    def __init__(self, audio_config, multi_modal_config):
+    def __init__(self, audio_config, classifier_config):
         super().__init__()
 
         self.audio_args = audio_config
-        self.args = multi_modal_config
+        self.args = classifier_config
 
         self.audio_encoder = Kwav2vec(self.audio_args)
 
         self.num_heads = self.args.num_heads
-        self.layers = self.args.layers
         self.attn_dropout = self.args.attn_dropout
         self.relu_dropout = self.args.relu_dropout
         self.res_dropout = self.args.res_dropout
@@ -208,5 +123,10 @@ class Kwav2vec_classfier(nn.Module):
         # 음성 데이터만 사용하는 음성 교사 모델 훈련시 forward
         audio_out = self.audio_encoder(batch)
         audio_out = self._conv1d(audio_out)
-        
+        audio_out = audio_out.transpose(1, 2)
+        #print(audio_out.shape) #Torch.size([16, 768, 512])
+         
+        audio_out = self.avgpool(audio_out)
+        audio_out = torch.squeeze(audio_out)
+        #print(audio_out.shape) #Torch.size([16, 768])
         return self.classifier(audio_out)

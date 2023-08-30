@@ -70,7 +70,7 @@ def parse_args():
 args = parse_args()
 if args.cuda != 'cuda:0':
     audio_config['cuda'] = args.cuda
-    cross_attention_config['cuda'] = args.cuda
+    classifier_config['cuda'] = args.cuda
     train_config['cuda'] = args.cuda
 
 
@@ -87,9 +87,8 @@ def train(model,optimizer, dataloader):
     
     for batch_id, batch in enumerate(dataloader):
         batch_x, batch_y = batch[0], batch[1]
-
         outputs = model(batch_x)
-        loss = loss_func(outputs.to(train_config['cuda']), batch_y.to(train_config['cuda']))
+        loss = loss_func(outputs.to(torch.float32).to(train_config['cuda']), batch_y.to(torch.float32).to(train_config['cuda']))
         loss_list.append(loss.item())
         
         tqdm_train.set_description('loss is {:.2f}'.format(loss.item()))
@@ -105,10 +104,10 @@ def train(model,optimizer, dataloader):
 
 def main():
     audio_conf = pd.Series(audio_config)
-    cross_attention_conf = pd.Series(cross_attention_config)
+    classifier_conf = pd.Series(classifier_config)
 
     print(audio_conf)
-    print(cross_attention_conf)
+    print(classifier_conf)
     print(train_config)
 
     #audio_conf['path'] = './TOTAL/Extracted_Dataset/'
@@ -117,7 +116,7 @@ def main():
     dataset = MERGEDataset(data_option='train', path='./data/')
 
     # 모델 생성
-    model = Kwav2vec_classfier(audio_conf, cross_attention_conf)
+    model = Kwav2vec_classfier(audio_conf, classifier_conf)
 
     device = args.cuda
     print('---------------------',device)
@@ -136,7 +135,7 @@ def main():
 
     for epoch in range(args.epochs):
         dataloader = DataLoader(dataset, batch_size=args.batch, shuffle=args.shuffle,
-                                        collate_fn=lambda x: (x, torch.LongTensor([i['label'] for i in x])))
+                                    collate_fn=lambda x: (x, torch.FloatTensor([i['label'] for i in x])))
         train(model, optimizer, dataloader)
         
         # 5의 배수 epoch마다 모델 저장
