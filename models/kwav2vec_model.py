@@ -38,12 +38,9 @@ class Kwav2vec():
         self.encoder.to(self.args.cuda)
         
         with torch.no_grad():
-            try:
-                wav = self.readfile(data['wav'])
-                encoded = self._encoding(wav, output_hidden_state=False)
-                pooled_hidden = encoded.last_hidden_state
-            except:
-                print(data['wav'])
+            wav = self.readfile(data['wav'])
+            encoded = self._encoding(wav, output_hidden_state=False)
+            pooled_hidden = encoded.last_hidden_state
 
         return pooled_hidden
 
