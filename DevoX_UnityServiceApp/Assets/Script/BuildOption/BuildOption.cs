@@ -9,7 +9,7 @@ enum OSType
 // Code to set up a build
 public class BuildOption
 {
-    public int tcpServerPort = 33200; // tcp Connet Port Number
+    public int tcpServerPort = 4200; // tcp Connet Port Number
 
     public int maxPacketSize = 65000;
 

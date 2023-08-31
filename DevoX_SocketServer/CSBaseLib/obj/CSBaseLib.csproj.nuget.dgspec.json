@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Git\\New_MetaClass_Project\\Meta_Class_SocketServer_Project\\CSBaseLib\\CSBaseLib.csproj": {}
+    "D:\\Git\\NetChallenge10\\DevoX_SocketServer\\CSBaseLib\\CSBaseLib.csproj": {}
   },
   "projects": {
-    "D:\\Git\\New_MetaClass_Project\\Meta_Class_SocketServer_Project\\CSBaseLib\\CSBaseLib.csproj": {
+    "D:\\Git\\NetChallenge10\\DevoX_SocketServer\\CSBaseLib\\CSBaseLib.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Git\\New_MetaClass_Project\\Meta_Class_SocketServer_Project\\CSBaseLib\\CSBaseLib.csproj",
+        "projectUniqueName": "D:\\Git\\NetChallenge10\\DevoX_SocketServer\\CSBaseLib\\CSBaseLib.csproj",
         "projectName": "CSBaseLib",
-        "projectPath": "D:\\Git\\New_MetaClass_Project\\Meta_Class_SocketServer_Project\\CSBaseLib\\CSBaseLib.csproj",
+        "projectPath": "D:\\Git\\NetChallenge10\\DevoX_SocketServer\\CSBaseLib\\CSBaseLib.csproj",
         "packagesPath": "C:\\Users\\SUN\\.nuget\\packages\\",
-        "outputPath": "D:\\Git\\New_MetaClass_Project\\Meta_Class_SocketServer_Project\\CSBaseLib\\obj\\",
+        "outputPath": "D:\\Git\\NetChallenge10\\DevoX_SocketServer\\CSBaseLib\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\SUN\\AppData\\Roaming\\NuGet\\NuGet.Config",

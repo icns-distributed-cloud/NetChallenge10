@@ -1,0 +1,22 @@
+# 우분투 18.04 이미지를 기반으로합니다.
+FROM ubuntu:18.04
+
+# 패키지 목록 업데이트 및 기본 패키지 설치
+RUN apt-get update && \
+    apt-get install -y \
+    curl \
+    wget \
+    && apt-get clean
+
+# .NET SDK 설치
+RUN wget -O packages-microsoft-prod.deb https://packages.microsoft.com/config/ubuntu/18.04/packages-microsoft-prod.deb && \
+    dpkg -i packages-microsoft-prod.deb && \
+    rm -rf packages-microsoft-prod.deb && \
+    apt-get update && \
+    apt-get install -y dotnet-sdk-5.0
+
+# 작업 디렉토리 설정
+WORKDIR /home/
+
+# 스크립트를 통해 SOURCE_FOLDER의 내용을 서버 디렉토리로 복사
+COPY / .

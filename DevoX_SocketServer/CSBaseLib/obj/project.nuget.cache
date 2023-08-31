@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "7L/v2slVXm8UPXYHz07tGu8FGWk7JHI6gpMuTLK+Qxsu0iloH7T1caZLVZ9Bmlt2pliCoQBKsi8tBwePaUkyig==",
+  "dgSpecHash": "pCRfOcibTHz4YoKHFuoW02KL3oeHcs9l+CNhrwcjsLMswv93UZZFM+QRc0aNZ5/dUQP0bEHOotm5/Prw9f8LWg==",
   "success": true,
-  "projectFilePath": "D:\\Git\\New_MetaClass_Project\\Meta_Class_SocketServer_Project\\CSBaseLib\\CSBaseLib.csproj",
+  "projectFilePath": "D:\\Git\\NetChallenge10\\DevoX_SocketServer\\CSBaseLib\\CSBaseLib.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\SUN\\.nuget\\packages\\messagepack\\2.2.60\\messagepack.2.2.60.nupkg.sha512",
     "C:\\Users\\SUN\\.nuget\\packages\\messagepack.annotations\\2.2.60\\messagepack.annotations.2.2.60.nupkg.sha512",

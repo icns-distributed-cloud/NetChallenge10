@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "oS5OElqNbQz0jWuAB85YOznQnzy0hUQfhRdvDqpWlIvLg+J1FPIINngTI2+StcTyh01oLhUzpbMAWVDT+JamMQ==",
+  "dgSpecHash": "IQRT6luL9VBgNZCmjRZdNPbUVt9BBM10jNxQ3Bwi2OCG55FHRCOZ5ZigRe9o1PgGSw57Fy66k8si1c0uPqounA==",
   "success": true,
-  "projectFilePath": "D:\\Git\\New_MetaClass_Project\\Meta_Class_SocketServer_Project\\GameServer\\GameServer.csproj",
+  "projectFilePath": "D:\\Git\\NetChallenge10\\DevoX_SocketServer\\GameServer\\GameServer.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\SUN\\.nuget\\packages\\commandlineparser\\2.8.0\\commandlineparser.2.8.0.nupkg.sha512",
     "C:\\Users\\SUN\\.nuget\\packages\\messagepack\\2.2.60\\messagepack.2.2.60.nupkg.sha512",

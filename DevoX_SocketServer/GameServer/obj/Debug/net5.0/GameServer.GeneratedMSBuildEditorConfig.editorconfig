@@ -7,4 +7,4 @@ build_property.PublishSingleFile =
 build_property.IncludeAllContentForSelfExtract = 
 build_property._SupportedPlatformList = Android,iOS,Linux,macOS,Windows
 build_property.RootNamespace = GameServer
-build_property.ProjectDir = D:\Git\New_MetaClass_Project\Meta_Class_SocketServer_Project\GameServer\
+build_property.ProjectDir = D:\Git\NetChallenge10\DevoX_SocketServer\GameServer\

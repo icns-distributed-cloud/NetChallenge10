@@ -64,11 +64,13 @@ public class GameManager : MonoBehaviour
 
         mBuildOption = new BuildOption();
 
-        mtcpMainServerManager = new TcpServerManager();
+        mtcpMainServerManager = gameObject.AddComponent<TcpServerManager>();
 
         mUserData = new UserData();
         mJoinRoomManager = gameObject.AddComponent<JoinUserManager>();
         SceneManager.LoadScene("LobbyScene");
+
+        DontDestroyOnLoad(this);
     }
 
     // Update is called once per frame
