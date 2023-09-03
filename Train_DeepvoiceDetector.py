@@ -75,7 +75,6 @@ if args.cuda != 'cuda:0':
 
 
 def train(model,optimizer, dataloader):
-    print("Train start")
     model.train()
     
     # 각 발화 및 스크립트 별 평가자들의 평가결과를 Softmax로 사용, MSEloss를 이용해 학습
@@ -134,6 +133,7 @@ def main():
         print("checkpoint will be saved every 5epochs!")
 
     for epoch in range(args.epochs):
+        print(epoch, "start!")
         dataloader = DataLoader(dataset, batch_size=args.batch, shuffle=args.shuffle,
                                     collate_fn=lambda x: (x, torch.FloatTensor([i['label'] for i in x])))
         train(model, optimizer, dataloader)
