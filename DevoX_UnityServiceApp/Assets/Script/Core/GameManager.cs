@@ -71,6 +71,8 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene("LobbyScene");
 
         DontDestroyOnLoad(this);
+
+        Screen.SetResolution(1080, 1920, true);
     }
 
     // Update is called once per frame

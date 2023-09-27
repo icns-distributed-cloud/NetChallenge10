@@ -13,6 +13,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
 
     private void init()
     {
+        PhotonNetwork.LocalPlayer.NickName = GameManager.instance.userData.userName;
         PhotonNetwork.GameVersion = "1";
         PhotonNetwork.AutomaticallySyncScene = true;
         PhotonNetwork.ConnectUsingSettings(); // 포톤 연결설정     //서버에 접속
@@ -59,7 +60,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
     //방에 입장 했을 때 호출 
     public override void OnJoinedRoom()
     {
-
+        character = PhotonNetwork.Instantiate("Cube", Vector3.zero, Quaternion.identity, 0);
     }
 
 }

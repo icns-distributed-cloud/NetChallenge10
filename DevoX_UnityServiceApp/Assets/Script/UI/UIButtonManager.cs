@@ -24,4 +24,18 @@ public class UIButtonManager : MonoBehaviour
     {
         
     }
+    public void OffObject(GameObject obj)
+    {
+        if (obj.activeSelf == true)
+        {
+            obj.SetActive(false);
+        }
+    }
+    public void OnObject(GameObject obj)
+    {
+        if (obj.activeSelf == false)
+        {
+            obj.SetActive(true);
+        }
+    }
 }
