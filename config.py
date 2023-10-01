@@ -19,7 +19,7 @@ audio_config = {
 }
 
 train_config = {
-    'epochs': 20,
+    'epochs': 5,
     #'epochs': 30,
     'batch_size': 16,
     'lr': 5e-5,
