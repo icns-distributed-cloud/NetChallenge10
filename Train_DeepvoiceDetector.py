@@ -7,7 +7,8 @@ import numpy as np
 import pandas as pd
 from torch.utils.data.dataloader import DataLoader
 
-from models.kwav2vec_model import *
+#from models.kwav2vec_model import *
+from models.kwav2vec_model_distributed import *
 from merdataset import *
 from config import *
 from utils import *
@@ -133,7 +134,7 @@ def main():
         print("checkpoint will be saved every 5epochs!")
 
     for epoch in range(args.epochs):
-        print(epoch, "start!")
+        print(epoch, "epoch start!")
         dataloader = DataLoader(dataset, batch_size=args.batch, shuffle=args.shuffle,
                                     collate_fn=lambda x: (x, torch.FloatTensor([i['label'] for i in x])))
         train(model, optimizer, dataloader)
