@@ -73,7 +73,7 @@ class Kwav2vec_classfier(nn.Module):
         self.audio_args = audio_config
         self.args = classifier_config
 
-        self.feature_extractor = Kwav2vec_feature_extractor(self.audio_args)
+        #self.feature_extractor = Kwav2vec_feature_extractor(self.audio_args)
         self.audio_encoder = Kwav2vec_encoder(self.audio_args)
 
         self.num_heads = self.args.num_heads
@@ -112,8 +112,8 @@ class Kwav2vec_classfier(nn.Module):
 
         for data in batch:
             # audio encoding
-            hidden_states = self.feature_extractor(data)
-            audio_out = self.audio_encoder(hidden_states)
+            #hidden_states = self.feature_extractor(data)
+            audio_out = self.audio_encoder(data)
 
             # 음성 데이터만 사용하는 음성 교사 모델 훈련시 forward
             audio_out = self._conv1d(audio_out)

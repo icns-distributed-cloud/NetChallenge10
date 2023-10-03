@@ -7,8 +7,8 @@ import numpy as np
 import pandas as pd
 from torch.utils.data.dataloader import DataLoader
 
-from models.kwav2vec_model import *
-#from models.kwav2vec_model_distributed import *
+#from models.kwav2vec_model import *
+from models.kwav2vec_model_distributed import *
 from merdataset import *
 from config import *
 from utils import *
@@ -75,7 +75,7 @@ if args.cuda != 'cuda:0':
     train_config['cuda'] = args.cuda
 
 
-def train(model,optimizer, dataloader):
+def train(model, feature_extractor, optimizer, dataloader):
     model.train()
     
     # 각 발화 및 스크립트 별 평가자들의 평가결과를 Softmax로 사용, MSEloss를 이용해 학습
@@ -87,7 +87,8 @@ def train(model,optimizer, dataloader):
     
     for batch_id, batch in enumerate(dataloader):
         batch_x, batch_y = batch[0], batch[1]
-        outputs = model(batch_x)
+        hidden_state_batch = [feature_extractor(data) for data in batch_x]
+        outputs = model(hidden_state_batch)
         loss = loss_func(outputs.to(torch.float32).to(train_config['cuda']), batch_y.to(torch.float32).to(train_config['cuda']))
         loss_list.append(loss.item())
         
@@ -116,11 +117,13 @@ def main():
     dataset = MERGEDataset(data_option='train', path='./data/')
 
     # 모델 생성
+    feature_extractor = Kwav2vec_feature_extractor(audio_conf)
     model = Kwav2vec_classfier(audio_conf, classifier_conf)
 
     device = args.cuda
     print('---------------------',device)
 
+    feature_extractor = feature_extractor
     model = model.to(device)
     optimizer = torch.optim.AdamW(params=model.parameters(), lr=args.lr)
 
@@ -137,7 +140,7 @@ def main():
         print(epoch, "epoch start!")
         dataloader = DataLoader(dataset, batch_size=args.batch, shuffle=args.shuffle,
                                     collate_fn=lambda x: (x, torch.FloatTensor([i['label'] for i in x])))
-        train(model, optimizer, dataloader)
+        train(model, feature_extractor, optimizer, dataloader)
         
         # 5의 배수 epoch마다 모델 저장
         if (epoch+1) % 5 == 0:
