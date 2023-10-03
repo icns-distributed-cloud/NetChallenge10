@@ -5,7 +5,14 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-
+    private DataManager mDataManager;
+    public DataManager dataManager
+    {
+        get
+        {
+            return mDataManager;
+        }
+    }
     public TcpServerManager tcpMainServerManager
     {
         get
@@ -67,17 +74,14 @@ public class GameManager : MonoBehaviour
         mtcpMainServerManager = gameObject.AddComponent<TcpServerManager>();
 
         mUserData = new UserData();
+
+        mDataManager = new DataManager();
+
         mJoinRoomManager = gameObject.AddComponent<JoinUserManager>();
         SceneManager.LoadScene("LobbyScene");
 
         DontDestroyOnLoad(this);
 
         Screen.SetResolution(1080, 1920, true);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

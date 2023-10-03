@@ -6,24 +6,59 @@ using UnityEngine.UI;
 
 public class UIButtonManager : MonoBehaviour
 {
-    public void LoginButton(InputField input)
-    {
-        GameManager.instance.userData.userId = input.text;
-        GameManager.instance.userData.userName = input.text;
+    public InputField LoginID_Input;
+    public InputField LoginPassWord_Input;
 
-        SceneManager.LoadScene("MainScene");
-    }
-    // Start is called before the first frame update
-    void Start()
+    public InputField RegisterID_Input;
+    public InputField RegisterPassWord_Input;
+
+    public Toggle IsAgreeToggle;
+    public Toggle IsAutoToggle;
+
+    public void LoginButton()
     {
-        
+        if (GameManager.instance.userData.userId.Equals(LoginID_Input.text) &&
+            GameManager.instance.userData.userPassWord.Equals(LoginPassWord_Input.text))
+        {
+            if (IsAutoToggle.isOn == true)
+            {
+                GameManager.instance.userData.isAutoLogin = true;
+            }
+            else
+            {
+                GameManager.instance.userData.isAutoLogin = true;
+            }
+
+            GameManager.instance.dataManager.SaveData();
+
+            SceneManager.LoadScene("UserScene");
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    public void RegisterButton(GameObject obj)
     {
-        
+        if (RegisterID_Input.text.Length != 0 && LoginPassWord_Input.text.Length != 0)
+        {
+            if (IsAgreeToggle.isOn == true)
+            {
+                GameManager.instance.userData.isAgree = true;
+
+                GameManager.instance.userData.userId = RegisterID_Input.text;
+                GameManager.instance.userData.userPassWord = LoginPassWord_Input.text;
+
+                GameManager.instance.dataManager.SaveData();
+
+                obj.gameObject.SetActive(false);
+            }
+        }
     }
+
+    public void StartButton()
+    {
+        SceneManager.LoadScene("LogginScene");
+    }
+
+
     public void OffObject(GameObject obj)
     {
         if (obj.activeSelf == true)

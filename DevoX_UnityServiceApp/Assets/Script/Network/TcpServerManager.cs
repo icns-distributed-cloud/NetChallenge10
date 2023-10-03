@@ -212,7 +212,7 @@ public class TcpServerManager : MonoBehaviour
         {
             if (ConnetServer() == true) // 서버에 접속 됬다는 상태로 변경
             {
-                RequestLogin(GameManager.instance.userData.userId, GameManager.instance.userData.userPass); // 접속되면 바로 서버에 로그인
+                RequestLogin(GameManager.instance.userData.userId, GameManager.instance.userData.userPassWord); // 접속되면 바로 서버에 로그인
             }
             else
             {
@@ -249,7 +249,7 @@ public class TcpServerManager : MonoBehaviour
         {
             if (ConnetServer() == true) // 서버에 접속 됬다는 상태로 변경
             {
-                RequestLogin(GameManager.instance.userData.userId, GameManager.instance.userData.userPass); // 접속되면 바로 서버에 로그인
+                RequestLogin(GameManager.instance.userData.userId, GameManager.instance.userData.userPassWord); // 접속되면 바로 서버에 로그인
             }
             else
             {
@@ -584,7 +584,7 @@ public class TcpServerManager : MonoBehaviour
                     }
                     else if (resData.Result == (UInt16)ERROR_CODE.EnterRoomAgain)
                     {
-                        RequestLogin(GameManager.instance.userData.userId, GameManager.instance.userData.userPass);
+                        RequestLogin(GameManager.instance.userData.userId, GameManager.instance.userData.userPassWord);
                     }
                     else // EROOR_CODE 가 여러개 들어옴 (서버에 접속 안되있거나, 이미 방에 들어와 있거나)
                     {
