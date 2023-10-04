@@ -116,8 +116,14 @@ def main():
     dataset = MERGEDataset(data_option='train', path='./data/')
 
     # 모델 생성
+    '''
+    if (os.path.isfile(path)):
+        model = torch.load('./ckpt/{}.pt'.format(path))
+    else:
+        model = Kwav2vec_classfier(audio_conf, classifier_conf)
+    '''
     model = Kwav2vec_classfier(audio_conf, classifier_conf)
-
+    
     device = args.cuda
     print('---------------------',device)
 

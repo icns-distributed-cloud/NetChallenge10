@@ -6,31 +6,35 @@ import soundfile as sf
 from tqdm import tqdm
 
 from transformers import Wav2Vec2Processor, Wav2Vec2Model
+from transformers.models.wav2vec2 import Wav2Vec2FeatureExtractor
 
-def encoding(raw_wavs,cuda, processor=None, encoder=None, return_hidden_state=False):
-    assert bool(processor) == bool(encoder)
-
-    # Audio reshape
-    if len(raw_wavs.shape) > 1:
-        raw_wavs = raw_wavs.reshape((1,-1)).squeeze()
-    inputs = processor(raw_wavs,
-                       sampling_rate=16000,
-                       return_attention_mask=True,
-                       return_tensors="pt")
-    inputs = inputs.to(cuda)
-    encoder = encoder.to(cuda)
-    outputs = encoder(output_hidden_states=return_hidden_state, **inputs)
-    torch.cuda.empty_cache()
-    return outputs
 
 class Kwav2vec():
     def __init__(self, config):
         self.args = config
         self.file_path = self.args.path
         self.max_len = self.args.max_length
-        self.processor = Wav2Vec2Processor.from_pretrained("kresnik/wav2vec2-large-xlsr-korean")
+        #self.processor = Wav2Vec2Processor.from_pretrained("kresnik/wav2vec2-large-xlsr-korean")
+        self.processor = Wav2Vec2FeatureExtractor(sampling_rate=8000)
         self.encoder = Wav2Vec2Model.from_pretrained("kresnik/wav2vec2-large-xlsr-korean")
+        self.encoder = self.encoder.to(self.args.cuda)
         self.len_ = len(os.listdir(self.args.path))
+        
+    def encoding(self, raw_wavs, return_hidden_state=False):
+        assert bool(self.processor) == bool(self.encoder)
+
+        # Audio reshape
+        if len(raw_wavs.shape) > 1:
+            raw_wavs = raw_wavs.reshape((1,-1)).squeeze()
+
+        inputs = self.processor(raw_wavs,
+                        sampling_rate=8000,
+                        return_attention_mask=True,
+                        return_tensors="pt")
+        inputs = inputs.to(self.args.cuda)
+        outputs = self.encoder(output_hidden_states=return_hidden_state, **inputs)
+        torch.cuda.empty_cache()
+        return outputs
 
     def encoding_one_data(self, data):
         os.makedirs(self.args.path + 'hidden_states', exist_ok=True)
@@ -49,10 +53,7 @@ class Kwav2vec():
         return wav
 
     def _encoding(self,raw_wav,output_hidden_state=False):
-        extract_feature = encoding(raw_wavs=raw_wav,
-                                   cuda=self.args.cuda,
-                                   encoder=self.encoder,
-                                   processor=self.processor,
+        extract_feature = self.encoding(raw_wavs=raw_wav,
                                    return_hidden_state=output_hidden_state)
 
         return extract_feature
@@ -101,7 +102,8 @@ class Kwav2vec_classfier(nn.Module):
             nn.Linear(input_dim, self.args.output_dim),
             nn.GELU(),
             nn.Dropout(self.args.dropout),
-            nn.Linear(self.args.output_dim, self.args.num_labels)
+            nn.Linear(self.args.output_dim, self.args.num_labels),
+            nn.Softmax(dim=0)
         ).to(self.args.cuda)
 
         self.projection = nn.Conv1d(1024, self.args.projection_dim, kernel_size=1, padding=0, bias=False).to(self.args.cuda)
@@ -129,4 +131,5 @@ class Kwav2vec_classfier(nn.Module):
         audio_out = self.avgpool(audio_out)
         audio_out = torch.squeeze(audio_out)
         #print(audio_out.shape) #Torch.size([16, 768])
+
         return self.classifier(audio_out)
