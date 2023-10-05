@@ -14,7 +14,7 @@ from config import *
 from utils import *
 import time
 
-args = None
+#args = None
 
 def parse_args():
     parser = argparse.ArgumentParser(description='get arguments')
@@ -68,12 +68,6 @@ def parse_args():
     args = parser.parse_args()
     return args
 
-args = parse_args()
-if args.cuda != 'cuda:0':
-    audio_config['cuda'] = args.cuda
-    classifier_config['cuda'] = args.cuda
-    train_config['cuda'] = args.cuda
-
 
 def train(model,optimizer, dataloader):
     model.train()
@@ -103,6 +97,12 @@ def train(model,optimizer, dataloader):
     print("Train Loss: {:.5f}".format(sum(loss_list)/len(loss_list)))
 
 def main():
+    args = parse_args()
+    if args.cuda != 'cuda:0':
+        audio_config['cuda'] = args.cuda
+        classifier_config['cuda'] = args.cuda
+        train_config['cuda'] = args.cuda
+
     audio_conf = pd.Series(audio_config)
     classifier_conf = pd.Series(classifier_config)
 
