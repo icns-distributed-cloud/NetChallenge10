@@ -1,5 +1,3 @@
-import argparse
-import random
 from tqdm import tqdm
 
 import torch
@@ -14,62 +12,16 @@ from config import *
 from utils import *
 import time
 
-#args = None
-
-def parse_args():
-    parser = argparse.ArgumentParser(description='get arguments')
-    parser.add_argument(
-        '--epochs',
-        default=train_config['epochs'],
-        type=int,
-        required=False,
-        help='epochs'
-    )
-    parser.add_argument(
-        '--batch',
-        default=train_config['batch_size'],
-        type=int,
-        required=False,
-        help='batch size'
-    )
-    parser.add_argument(
-        '--shuffle',
-        default=False,
-        required=False,
-        help='shuffle'
-    )
-    parser.add_argument(
-        '--lr',
-        default=train_config['lr'],
-        type=float,
-        required=False,
-        help='learning rate'
-    )
-    parser.add_argument(
-        '--cuda',
-        default='cuda:0',
-        help='class weight'
-    )
-
-    parser.add_argument(
-        '--save',
-        default=True,
-        action='store_true',
-        help='save checkpoint'
-    )
-
-    parser.add_argument(
-        '--model_name',
-        type=str,
-        default='test',
-        help='checkpoint name to load or save'
-    )
-
-    args = parser.parse_args()
-    return args
-
 def main():
-    args = parse_args()
+    args = {}
+    args['epochs'] = train_config['epochs']
+    args['batch'] = train_config['batch_size']
+    args['shuffle'] = False
+    args['lr'] = train_config['lr']
+    args['cuda'] = 'cuda:0'
+    args['save'] = True
+    args['model_name'] = 'DeepvoiceDetector'
+
     if args.cuda != 'cuda:0':
         audio_config['cuda'] = args.cuda
         classifier_config['cuda'] = args.cuda
