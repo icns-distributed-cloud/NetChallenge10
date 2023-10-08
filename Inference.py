@@ -14,7 +14,6 @@ def parse_args():
     parser = argparse.ArgumentParser(description='get arguments')
     parser.add_argument(
         '--batch',
-        default=test_config['batch_size'],
         type=int,
         required=False,
         help='batch size'
@@ -74,7 +73,7 @@ def parse_args():
 
 args = parse_args()
 if args.cuda != 'cuda:0':
-    test_config['cuda'] = args.cuda
+    audio_config['cuda'] = args.cuda
 
 
 def inference(model, test_data):
@@ -116,7 +115,7 @@ def main():
         }
 
         # 모델 불러오기
-        model = torch.load('./ckpt/{}.pt'.format(args.model_name))
+        model = torch.load('./ckpt/{}.pt'.format(args.model_name), map_location=torch.device(args.cuda))
         result = inference(model, test_data)
         
         # if it is fake voice
