@@ -7,6 +7,8 @@ from sklearn.metrics import accuracy_score, recall_score, precision_score, f1_sc
 from config import *
 from utils import *
 
+import ftplib
+import shutil
 import time
 import os
 
@@ -67,6 +69,13 @@ def parse_args():
         default=0.7,
         help='set round number'
     )
+    parser.add_argument(
+        '--copy_path',
+        type=str,
+        required=False,
+        default='/root/Inference/NetChallenge10/data/to_core',
+        help='set round number'
+    )
     args = parser.parse_args()
     return args
 
@@ -94,6 +103,9 @@ def inference(model, test_data):
 
 def main():
     count = 0
+    os.makedirs(os.path.join(args.copy_path, 'fake'), exist_ok=True)
+    os.makedirs(os.path.join(args.copy_path, 'real'), exist_ok=True)
+
     while(True):
         if((args.round_num > 0) and (count > args.round_num)):
             break
@@ -123,6 +135,11 @@ def main():
             with open(args.result_path, 'w') as f:
                 data = data_type
                 f.write(data)
+            
+            shutil.copy(test_data['wav'], os.path.join(args.copy_path, 'fake', file_name))
+        else:
+            os.makedirs(os.path.join(args.copy_path, 'real'), exist_ok=True)
+            shutil.copy(test_data['wav'], os.path.join(args.copy_path, 'real', file_name))
 
         time.sleep(args.sleep_time)
 
@@ -132,6 +149,7 @@ def main():
                 data_path = os.path.joint(args.data_path, data_type)
                 for wavs in os.listdir(data_path):
                     os.remove(os.path.join(data_path, wavs))
+            count = 0
         
 if __name__ == '__main__':
     import os
