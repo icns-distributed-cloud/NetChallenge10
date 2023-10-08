@@ -22,7 +22,7 @@ def parse_args():
 
     parser.add_argument(
         '--cuda',
-        default=test_config['cuda'],
+        default='cuda:0' if torch.cuda.is_available() else 'cpu',
         help='cuda'
     )
 
