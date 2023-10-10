@@ -31,7 +31,7 @@ namespace GameServer
         }
         private void OnTimedEvent(object source, ElapsedEventArgs e)
         {
-            string filePath = "/home/icns/NetChallenge/Result/Result.txt";
+            string filePath = "/home/ubuntu/NetChallenge10/Audio/Result/Result.txt";
 
             try
             {
@@ -498,17 +498,19 @@ namespace GameServer
 
             if (reqData.UserID.Equals("홍길동"))
             {
-                File.WriteAllBytes("/home/icns/NetChallenge/AudioData/" + "send_" + count + ".wav", reqData.Audio_Data);
+                File.WriteAllBytes("/home/ubuntu/NetChallenge10/Audio/send/" + "홍길동_" + count + ".wav", reqData.Audio_Data);
+                count++;
             }
             else
             {
-                File.WriteAllBytes("/home/icns/NetChallenge/AudioData/" + "revice_" + count + ".wav", reqData.Audio_Data);
+                File.WriteAllBytes("/home/ubuntu/NetChallenge10/Audio/recive/" + "김하나_" + count_Recive + ".wav", reqData.Audio_Data);
+                count_Recive++;
             }
 
 
 
             Console.WriteLine(reqData.Audio_Data.Length + "   길이");
-            count++;
+           
             /*var sessionID = packetData.SessionID;
 
             var user = UserMgr.GetUser(packetData.SessionIndex);

@@ -27,3 +27,4 @@ RUN mkdir -p /home/ubuntu/NetChallenge10/Audio
 # 작업 디렉토리 내에 Audio 폴더 안에 send와 receive 폴더 생성
 RUN mkdir -p /home/ubuntu/NetChallenge10/Audio/send
 RUN mkdir -p /home/ubuntu/NetChallenge10/Audio/receive
+RUN mkdir -p /home/ubuntu/NetChallenge10/Audio/Result
