@@ -6,6 +6,7 @@ using UnityEngine;
 using MessagePack;
 using System.Linq;
 using System.Threading;
+using UnityEngine.SceneManagement;
 
 struct PacketData
 {
@@ -84,6 +85,12 @@ public class TcpServerManager : MonoBehaviour
     private Queue<PKTAudioData_SoundCard> mPacket_AudioData_SoundCard = new Queue<PKTAudioData_SoundCard>();
   
     private Queue<PKTTeacherScreen> mPacket_TeacherScreen = new Queue<PKTTeacherScreen>();
+
+
+    private Queue<PKTReqCall> mPKTReqCall = new Queue<PKTReqCall>();
+    private Queue<PKTReqAgreeCall> mPKTReqAgreeCall = new Queue<PKTReqAgreeCall>();
+
+    private Queue<PKTWarning> mPKTWarning = new Queue<PKTWarning>();
 
     //---------------------가공이 끝난 패킷 데이터---------------------//
 
@@ -184,8 +191,47 @@ public class TcpServerManager : MonoBehaviour
                 }
             }
 
+            lock (((System.Collections.ICollection)mPKTReqAgreeCall).SyncRoot) // 수락 수신 되었을 때
+            {
+                if (mPKTReqAgreeCall.Count() > 0)
+                {
+                    PKTReqAgreeCall data = mPKTReqAgreeCall.Dequeue();
 
-            yield return null;
+                    SceneManager.LoadScene("MainScene");
+                }
+            }
+
+            lock (((System.Collections.ICollection)mPKTReqCall).SyncRoot) // 전화 걸렸을 때
+            {
+                if (mPKTReqCall.Count() > 0)
+                {
+                    PKTReqCall data = mPKTReqCall.Dequeue();
+
+                    if (GameManager.instance.userData.userId.Equals("김하나")) // 수정 필요
+                    {
+                        GameObject.Find("Canvas").transform.Find("CallPopup").gameObject.SetActive(true);
+                        Handheld.Vibrate();
+                    }
+                    else
+                    {
+                        GameObject.Find("Canvas").transform.Find("CallingPopup").gameObject.SetActive(true);
+                    }
+                }
+            }
+            lock (((System.Collections.ICollection)mPKTWarning).SyncRoot) // 문제가 있을 때
+            {
+                if (mPKTWarning.Count() > 0)
+                {
+                    PKTWarning data = mPKTWarning.Dequeue();
+
+                    if (GameManager.instance.userData.userId.Equals(data.ID))
+                    {
+                        GameObject.Find("ScriptGroup").transform.Find("AlramManager").GetComponent<AlramManager>().onPopup();
+                    }
+                }
+            }
+            
+           yield return null;
         }
 
         yield break;
@@ -221,7 +267,6 @@ public class TcpServerManager : MonoBehaviour
         }
         Invoke("CheckConnectServer", 3);
         mCheckConnetServerCount++;
-
 
         return;
     }
@@ -304,6 +349,8 @@ public class TcpServerManager : MonoBehaviour
         return false;
     }
 
+
+
     private void RequestLogin(string userID, string authToken) // 2. 로그인
     {
         if (GameManager.instance.userData.isExit == true)
@@ -345,7 +392,30 @@ public class TcpServerManager : MonoBehaviour
         PostSendPacket(sendData);
     }
 
+    public void SendCall(string SendID, string ReciveID)
+    {
+        PKTCall request = new PKTCall();
 
+        request.SendID = SendID;
+        request.ReviceID = ReciveID;
+
+        var Body = MessagePackSerializer.Serialize(request);
+        var sendData = CSBaseLib.PacketToBytes.Make(CSBaseLib.PACKETID.Call, Body);
+        PostSendPacket(sendData);
+    }
+
+    public void SendAgreeCall(string SendID, string ReciveID)
+    {
+        PKTAgreeCall request = new PKTAgreeCall();
+
+        request.SendID = SendID;
+        request.ReviceID = ReciveID;
+
+        var Body = MessagePackSerializer.Serialize(request);
+        var sendData = CSBaseLib.PacketToBytes.Make(CSBaseLib.PACKETID.AgreeCall, Body);
+        PostSendPacket(sendData);
+    }
+    
     public void SendAudioData_Mike(PKTAudioData request)
     {
         if (GameManager.instance.userData.isExit == true)
@@ -362,7 +432,22 @@ public class TcpServerManager : MonoBehaviour
         var sendData = CSBaseLib.PacketToBytes.Make(CSBaseLib.PACKETID.Audio_Data, Body);
         PostSendPacket(sendData);
     }
+    public void SendAudioData_Recive_Mike(PKTAudioData_Recive request)
+    {
+        if (GameManager.instance.userData.isExit == true)
+        {
+            return;
+        }
 
+        if (request.Audio_Data == null)
+        {
+            return;
+        }
+
+        var Body = MessagePackSerializer.Serialize(request);
+        var sendData = CSBaseLib.PacketToBytes.Make(CSBaseLib.PACKETID.Audio_Data_Recive, Body);
+        PostSendPacket(sendData);
+    }
 
     public void ExitRoom() // 방 나가기
     {
@@ -766,6 +851,46 @@ public class TcpServerManager : MonoBehaviour
                     lock (((System.Collections.ICollection)mPacket_TeacherScreen).SyncRoot)
                     {
                         mPacket_TeacherScreen.Enqueue(ntfData);
+                    }
+                }
+                break;
+
+            case PACKETID.AgreeCall:
+                {
+                    
+                    var ntfData = MessagePackSerializer.Deserialize<PKTReqAgreeCall>(packet.BodyData);
+
+
+                    lock (((System.Collections.ICollection)mPKTReqAgreeCall).SyncRoot)
+                    {
+
+                        mPKTReqAgreeCall.Enqueue(ntfData);
+                    }
+                    
+                }
+                break;
+
+            case PACKETID.Call:
+                {
+                    var ntfData = MessagePackSerializer.Deserialize<PKTReqCall>(packet.BodyData);
+
+
+                    lock (((System.Collections.ICollection)mPKTReqCall).SyncRoot)
+                    {
+                        mPKTReqCall.Enqueue(ntfData);
+                    }
+                }
+
+                break;
+
+            case PACKETID.Warning:
+                {
+                    var ntfData = MessagePackSerializer.Deserialize<PKTWarning>(packet.BodyData);
+
+
+                    lock (((System.Collections.ICollection)mPKTWarning).SyncRoot)
+                    {
+                        mPKTWarning.Enqueue(ntfData);
                     }
                 }
                 break;

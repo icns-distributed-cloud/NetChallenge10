@@ -57,6 +57,18 @@ namespace GameServer
             return user;
         }
 
+        public User FindUser_Name(string name)
+        {
+            foreach (var user_ in UserMap)
+            {
+                if (user_.Value.UserID.Equals(name))
+                {
+                    return user_.Value;
+                }
+            }
+            return null;
+        }
+
         bool IsFullUserCount()
         {
             return MaxUserCount <= UserMap.Count();

@@ -5,31 +5,25 @@ using UnityEngine;
 public class AlramManager : MonoBehaviour
 {
     public GameObject popupObj;
-    // Start is called before the first frame update
-    void Start()
+
+    public void onPopup()
     {
-        StartCoroutine(startAction());
+        StartCoroutine("startAction");
     }
-    void onPopup()
+
+    private void OnDestroy()
     {
-        
+        StopCoroutine("startAction");
     }
 
     IEnumerator startAction()
     {
-        yield return new WaitForSeconds(15);
-
         popupObj.SetActive(true);
 
-        yield return new WaitForSeconds(1);
-        Handheld.Vibrate();
-
-        yield return new WaitForSeconds(1);
-        Handheld.Vibrate();
-
-        yield return new WaitForSeconds(1);
-        Handheld.Vibrate();
-
-        yield return null;
+        while (true)
+        {
+            yield return new WaitForSeconds(1);
+            Handheld.Vibrate();
+        }
     }
 }

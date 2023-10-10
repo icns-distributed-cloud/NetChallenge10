@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44402242, g: 0.49316543, b: 0.5722324, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -233,7 +233,7 @@ RectTransform:
   m_Children:
   - {fileID: 1258933960}
   m_Father: {fileID: 395759771}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -549,9 +549,9 @@ RectTransform:
   - {fileID: 1362672701}
   - {fileID: 1076305561}
   - {fileID: 311500388}
+  - {fileID: 705380600}
   - {fileID: 1687790978}
   - {fileID: 195760518}
-  - {fileID: 705380600}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -608,6 +608,8 @@ MonoBehaviour:
   LoginPassWord_Input: {fileID: 0}
   RegisterID_Input: {fileID: 0}
   RegisterPassWord_Input: {fileID: 0}
+  IsAgreeToggle: {fileID: 0}
+  IsAutoToggle: {fileID: 0}
 --- !u!1 &666005843
 GameObject:
   m_ObjectHideFlags: 0
@@ -752,12 +754,12 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 395759771}
-  m_RootOrder: 5
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -17, y: 67.19127}
-  m_SizeDelta: {x: 699.0487, y: 780.2615}
+  m_AnchoredPosition: {x: -0.000011444, y: 0}
+  m_SizeDelta: {x: 857.6979, y: 957.3418}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &705380601
 MonoBehaviour:
@@ -1372,7 +1374,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 75.103, y: 632}
+  m_AnchoredPosition: {x: 12.778, y: 614}
   m_SizeDelta: {x: 883.2545, y: 270.36}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1076305562
@@ -1401,7 +1403,7 @@ MonoBehaviour:
     m_FontStyle: 1
     m_BestFit: 1
     m_MinSize: 5
-    m_MaxSize: 70
+    m_MaxSize: 80
     m_Alignment: 3
     m_AlignByGeometry: 0
     m_RichText: 1
@@ -1801,11 +1803,11 @@ RectTransform:
   m_Children:
   - {fileID: 116557185}
   m_Father: {fileID: 395759771}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 8.7318, y: -447}
+  m_AnchoredPosition: {x: -0.000011444, y: -645}
   m_SizeDelta: {x: 561.653, y: 112.2444}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1687790979

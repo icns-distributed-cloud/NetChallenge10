@@ -162,6 +162,26 @@ namespace CSBaseLib
         [Key(7)]
         public int UserMode;
     }
+    [MessagePackObject]
+    public class PKTAudioData_Recive
+    {
+        [Key(0)]
+        public string UserID;
+        [Key(1)]
+        public byte[] Audio_Data;
+        [Key(2)]
+        public int AudioType;
+        [Key(3)]
+        public int Channels;
+        [Key(4)]
+        public int SampleRate;
+        [Key(5)]
+        public int Frequnecy;
+        [Key(6)]
+        public int AudioSplitType;
+        [Key(7)]
+        public int UserMode;
+    }
 
     [MessagePackObject]
     public class PKTAudioData_SoundCard
@@ -260,6 +280,43 @@ namespace CSBaseLib
         public int UserMode;
         [Key(4)]
         public int UserAvatarType;
+    }
+
+    [MessagePackObject]
+    public class PKTCall
+    {
+        [Key(0)]
+        public string SendID;
+        [Key(1)]
+        public string ReviceID;
+    }
+    [MessagePackObject]
+    public class PKTReqCall
+    {
+        [Key(0)]
+        public string ReviceID;
+    }
+    [MessagePackObject]
+    public class PKTWarning
+    {
+        [Key(0)]
+        public string ID;
+    }
+
+    [MessagePackObject]
+    public class PKTAgreeCall
+    {
+        [Key(0)]
+        public string ReviceID;
+        [Key(1)]
+        public string SendID;
+    }
+
+    [MessagePackObject]
+    public class PKTReqAgreeCall
+    {
+        [Key(0)]
+        public string SendID;
     }
 
     [MessagePackObject]

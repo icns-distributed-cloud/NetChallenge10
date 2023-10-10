@@ -51,6 +51,7 @@ namespace CSBaseLib
         Student_Mike = 1106, // 선생님이 설정하는, 학생의 마이크 On, Off
 
         Audio_Data = 1108, // 선생님, 학생이 보내는 음성 데이터, 마이크
+        Audio_Data_Recive = 1116, // 선생님, 학생이 보내는 음성 데이터, 마이크
         Audio_Data_SoundCard = 1110, // 선생님, 학생이 보내는 음성 데이터, 사운드 카드
 
         CloseClassRoom = 1109, // 선생님이 학생에게 보내는 강의 종료 패킷
@@ -59,6 +60,9 @@ namespace CSBaseLib
 
         CheckUser = 1112, // 선생님이 보내는 화면 공유 데이터
 
+        Call = 1113,
+        AgreeCall = 1114,
+        Warning = 1115,
 
         // 클라이언트
         CS_BEGIN = 1001,

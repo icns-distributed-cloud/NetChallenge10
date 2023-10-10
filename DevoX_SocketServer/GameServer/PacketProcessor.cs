@@ -92,7 +92,7 @@ namespace GameServer
                         catch (Exception e)
                         {
                             GameManager.instance.userData.isCheckConnectionFlag = false;
-                            Console.WriteLine("패킷 에러!"); 
+                            Console.WriteLine("패킷 에러!" + e.ToString()); 
                         }
                     }
                     else

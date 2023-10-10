@@ -28,3 +28,13 @@ D:\Git\New_MetaClass_Project\Meta_Class_SocketServer_Project\CSBaseLib\obj\Debug
 D:\Git\New_MetaClass_Project\Meta_Class_SocketServer_Project\CSBaseLib\obj\Debug\netstandard2.1\CSBaseLib.csproj.CoreCompileInputs.cache
 D:\Git\New_MetaClass_Project\Meta_Class_SocketServer_Project\CSBaseLib\obj\Debug\netstandard2.1\CSBaseLib.dll
 D:\Git\New_MetaClass_Project\Meta_Class_SocketServer_Project\CSBaseLib\obj\Debug\netstandard2.1\CSBaseLib.pdb
+D:\Git\NetChallenge10\DevoX_SocketServer\CSBaseLib\bin\Debug\netstandard2.1\CSBaseLib.deps.json
+D:\Git\NetChallenge10\DevoX_SocketServer\CSBaseLib\bin\Debug\netstandard2.1\CSBaseLib.dll
+D:\Git\NetChallenge10\DevoX_SocketServer\CSBaseLib\bin\Debug\netstandard2.1\CSBaseLib.pdb
+D:\Git\NetChallenge10\DevoX_SocketServer\CSBaseLib\obj\Debug\netstandard2.1\CSBaseLib.csproj.AssemblyReference.cache
+D:\Git\NetChallenge10\DevoX_SocketServer\CSBaseLib\obj\Debug\netstandard2.1\CSBaseLib.GeneratedMSBuildEditorConfig.editorconfig
+D:\Git\NetChallenge10\DevoX_SocketServer\CSBaseLib\obj\Debug\netstandard2.1\CSBaseLib.AssemblyInfoInputs.cache
+D:\Git\NetChallenge10\DevoX_SocketServer\CSBaseLib\obj\Debug\netstandard2.1\CSBaseLib.AssemblyInfo.cs
+D:\Git\NetChallenge10\DevoX_SocketServer\CSBaseLib\obj\Debug\netstandard2.1\CSBaseLib.csproj.CoreCompileInputs.cache
+D:\Git\NetChallenge10\DevoX_SocketServer\CSBaseLib\obj\Debug\netstandard2.1\CSBaseLib.dll
+D:\Git\NetChallenge10\DevoX_SocketServer\CSBaseLib\obj\Debug\netstandard2.1\CSBaseLib.pdb

@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using MessagePack;
 using CSBaseLib;
+using System.IO;
 
-
+using System.Timers;
 //Server Room connect socket handler. Handle metaverse room packet and recive, process that.
 //Join room, Leave room, Chat message, voice chat (...etc).
 
@@ -14,11 +15,51 @@ namespace GameServer
         List<Room> RoomList = null;
         GameTcpaterManager GameUpdateMgrRef;
 
+        private Timer _timer;
+
         public void SetObject(List<Room> roomList, GameTcpaterManager gameUpdateMgr)
         {
             RoomList = roomList;
 
             GameUpdateMgrRef = gameUpdateMgr;
+
+            _timer = new Timer(1000); // 1000ms = 1s
+            _timer.Elapsed += OnTimedEvent;
+            _timer.AutoReset = true; // If you want to run it repeatedly. Set to false if you want to run it only once.
+            _timer.Start();
+
+        }
+        private void OnTimedEvent(object source, ElapsedEventArgs e)
+        {
+            string filePath = "/home/icns/NetChallenge/Result/Result.txt";
+
+            try
+            {
+                if (File.Exists(filePath))
+                {
+                    string content = File.ReadAllText(filePath).Trim(); // Trim()을 사용하여 시작/끝의 공백 및 개행 문자 제거
+
+                    if (string.IsNullOrEmpty(content))
+                    {
+                       // Console.WriteLine("The file is empty.");
+                    }
+                    else
+                    {
+                        //Console.WriteLine($"The file contains the following text: \"{content}\"");
+
+                        Warning(content);
+                    }
+                }
+                else
+                {
+                    //Console.WriteLine($"The file {filePath} does not exist.");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An error occurred: {ex.Message}");
+            }
+        
         }
 
         public void RegistPacketHandler(Dictionary<UInt16, Action<ServerPacketData>> packetHandlerMap)
@@ -35,6 +76,7 @@ namespace GameServer
             packetHandlerMap.Add((UInt16)PACKETID.All_Data_Teacher, RequestAllData_Teacher);
 
             packetHandlerMap.Add((UInt16)PACKETID.Audio_Data, RequestAudioData_Teacher);
+            packetHandlerMap.Add((UInt16)PACKETID.Audio_Data_Recive, RequestAudioData_Recive);
             packetHandlerMap.Add((UInt16)PACKETID.Audio_Data_SoundCard, RequestAudioData_SoundCard_Teacher);
 
             packetHandlerMap.Add((UInt16)PACKETID.Position, RequestPosition);
@@ -43,6 +85,11 @@ namespace GameServer
 
             packetHandlerMap.Add((UInt16)PACKETID.Teacher_Screen, RequestScreenData_Teacher);
             packetHandlerMap.Add((UInt16)PACKETID.CheckUser, CheckUser);
+
+
+
+            packetHandlerMap.Add((UInt16)PACKETID.Call, Call);
+            packetHandlerMap.Add((UInt16)PACKETID.AgreeCall, AgreeCall);
         }
 
         private Room GetRoom(int lectureID)
@@ -189,7 +236,114 @@ namespace GameServer
 
             ServerNetwork.SendData(sessionID, sendData);
         }
+        /// <summary>
+        public void Call(ServerPacketData packetData)
+        {
+            var sessionID = packetData.SessionID;
 
+            var user = UserMgr.GetUser(packetData.SessionIndex);
+
+            if (user == null)
+            {
+                return;
+            }
+
+            var room = GetRoom(user.LectureID);
+
+
+            var PKT = new PKTReqCall()
+            {
+                ReviceID = user.UserID
+            };
+
+            var bodyData = MessagePackSerializer.Serialize(PKT);
+            var sendData = PacketToBytes.Make(PACKETID.Call, bodyData);
+
+            if (room == null)
+            {
+                return;
+            }
+
+            var roomObject = CheckRoomAndRoomUser(packetData.SessionIndex);
+
+            if (roomObject.Item1 == false)
+            {
+                return;
+            }
+
+            roomObject.Item2.Broadcast(-1, sendData);
+        }
+
+        public void AgreeCall(ServerPacketData packetData)
+        {
+            var sessionID = packetData.SessionID;
+
+            var user = UserMgr.GetUser(packetData.SessionIndex);
+
+            if (user == null)
+            {
+                return;
+            }
+
+            var room = GetRoom(user.LectureID);
+
+            var PKT = new PKTReqAgreeCall()
+            {
+                
+            };
+
+            var bodyData = MessagePackSerializer.Serialize(PKT);
+            var sendData = PacketToBytes.Make(PACKETID.AgreeCall, bodyData);
+
+            if (room == null)
+            {
+                return;
+            }
+
+            var roomObject = CheckRoomAndRoomUser(packetData.SessionIndex);
+
+            if (roomObject.Item1 == false)
+            {
+                return;
+            }
+
+            roomObject.Item2.Broadcast(-1, sendData);
+        }
+
+        public void Warning(string id)
+        {
+
+            var user = UserMgr.FindUser_Name("김하나");
+
+            if (user == null)
+            {
+                return;
+            }
+
+            var room = GetRoom(user.LectureID);
+
+            var PKT = new PKTWarning()
+            {
+                ID = id
+            };
+            var bodyData = MessagePackSerializer.Serialize(PKT);
+            var sendData = PacketToBytes.Make(PACKETID.Call, bodyData);
+
+            if (room == null)
+            {
+                return;
+            }
+
+            var roomObject = CheckRoomAndRoomUser(user.SessionIndex);
+
+            if (roomObject.Item1 == false)
+            {
+                return;
+            }
+
+            roomObject.Item2.Broadcast(-1, sendData);
+        }
+        /// <summary>
 
         public void CheckUser(ServerPacketData packetData)
         {
@@ -285,9 +439,28 @@ namespace GameServer
             user.SaveConnectedTime();
             roomObject.Item2.Broadcast(-1, sendData, reqData.UserID);
         }
+        int count = 0;
         public void RequestAudioData_Teacher(ServerPacketData packetData)
         {
-            var sessionID = packetData.SessionID;
+            var reqData = MessagePackSerializer.Deserialize<PKTAudioData>(packetData.BodyData);
+
+
+            // File.WriteAllBytes("/home/icns/NetChallenge/AudioData/" + reqData.UserID + "_" + count + ".wav", reqData.Audio_Data);
+
+            if (reqData.UserID.Equals("홍길동"))
+            {
+                File.WriteAllBytes("/home/icns/NetChallenge/AudioData/send/" + "send_" + count + ".wav", reqData.Audio_Data);
+            }
+            else
+            {
+                File.WriteAllBytes("/home/icns/NetChallenge/AudioData/recive" + "revice_" + count + ".wav", reqData.Audio_Data);
+            }
+
+
+            
+            Console.WriteLine(reqData.Audio_Data.Length + "   길이");
+            count++;
+            /*var sessionID = packetData.SessionID;
 
             var user = UserMgr.GetUser(packetData.SessionIndex);
 
@@ -314,7 +487,56 @@ namespace GameServer
                 return;
             }
             user.SaveConnectedTime();
-            roomObject.Item2.Broadcast(-1, sendData, reqData.UserID);
+            roomObject.Item2.Broadcast(-1, sendData, reqData.UserID);*/
+        }
+        public void RequestAudioData_Recive(ServerPacketData packetData)
+        {
+            var reqData = MessagePackSerializer.Deserialize<PKTAudioData_Recive>(packetData.BodyData);
+
+
+            // File.WriteAllBytes("/home/icns/NetChallenge/AudioData/" + reqData.UserID + "_" + count + ".wav", reqData.Audio_Data);
+
+            if (reqData.UserID.Equals("홍길동"))
+            {
+                File.WriteAllBytes("/home/icns/NetChallenge/AudioData/" + "send_" + count + ".wav", reqData.Audio_Data);
+            }
+            else
+            {
+                File.WriteAllBytes("/home/icns/NetChallenge/AudioData/" + "revice_" + count + ".wav", reqData.Audio_Data);
+            }
+
+
+
+            Console.WriteLine(reqData.Audio_Data.Length + "   길이");
+            count++;
+            /*var sessionID = packetData.SessionID;
+
+            var user = UserMgr.GetUser(packetData.SessionIndex);
+
+            if (user == null)
+            {
+                return;
+            }
+
+            var room = GetRoom(user.LectureID);
+
+            var reqData = MessagePackSerializer.Deserialize<PKTAudioData>(packetData.BodyData);
+
+            var sendData = PacketToBytes.Make(PACKETID.Audio_Data, packetData.BodyData);
+
+            if (room == null)
+            {
+                return;
+            }
+
+            var roomObject = CheckRoomAndRoomUser(packetData.SessionIndex);
+
+            if (roomObject.Item1 == false)
+            {
+                return;
+            }
+            user.SaveConnectedTime();
+            roomObject.Item2.Broadcast(-1, sendData, reqData.UserID);*/
         }
 
         public void RequestScreenData_Teacher(ServerPacketData packetData)

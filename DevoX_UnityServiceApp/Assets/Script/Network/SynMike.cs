@@ -11,12 +11,12 @@ using UnityEngine;
 public class SynMike : MonoBehaviour
 {
     private AudioSource mRecordVoiceMike_Source;
-    private AudioSource mOuputSoundCard_Source;
-    private AudioSource mOutputVoiceMike_Source;
+   // private AudioSource mOuputSoundCard_Source;
+   // private AudioSource mOutputVoiceMike_Source;
 
     public bool isMine = false;
 
-    public bool masterMikeFlag = false; // 선생님이 설정한것, 기본은 false, 선생님이 말을 할 수 있도록 설정하면 true
+    public bool masterMikeFlag = true; // 선생님이 설정한것, 기본은 false, 선생님이 말을 할 수 있도록 설정하면 true
 
     private Queue<PKTAudioData> mPacket_AudioData_Mike = new Queue<PKTAudioData>(); // 가공이 끝난 패킷 데이터
 
@@ -64,12 +64,13 @@ public class SynMike : MonoBehaviour
 
         mCurrentMikeOffest = 0;
 
-        mOuputSoundCard_Source = gameObject.transform.Find("SoundCardAudio").GetComponent<AudioSource>();
-        mOutputVoiceMike_Source = gameObject.transform.Find("VoiceMikeAudio").GetComponent<AudioSource>();
+        //  mOuputSoundCard_Source = gameObject.transform.Find("SoundCardAudio").GetComponent<AudioSource>();
+        //  mOutputVoiceMike_Source = gameObject.transform.Find("VoiceMikeAudio").GetComponent<AudioSource>();
 
-        mOuputSoundCard_Source.clip = AudioClip.Create("ClipName", 44100, 2, 44100, false);
+        //  mOuputSoundCard_Source.clip = AudioClip.Create("ClipName", 44100, 2, 44100, false);
 
         mRecordVoiceMike_Source = gameObject.AddComponent<AudioSource>();
+       // mRecordVoiceMike_Source = GameObject.Find("Voice").GetComponent<AudioSource>();
 
         StartCoroutine("RecordMike");
 
@@ -78,15 +79,15 @@ public class SynMike : MonoBehaviour
 
         //------- 음성 출력 디폴트 설정값 -------//
         mRecordVoiceMike_Source.spatialBlend = 0.8f; 
-        mOutputVoiceMike_Source.spatialBlend = 0.8f;
-        mOuputSoundCard_Source.spatialBlend = 0.8f;
+     //   mOutputVoiceMike_Source.spatialBlend = 0.8f;
+     //   mOuputSoundCard_Source.spatialBlend = 0.8f;
 
         mRecordVoiceMike_Source.volume = 0.97f;
-        mOuputSoundCard_Source.volume = 0.97f;
-        mOutputVoiceMike_Source.volume = 0.97f;
+      //  mOuputSoundCard_Source.volume = 0.97f;
+     //   mOutputVoiceMike_Source.volume = 0.97f;
         //---------------------------------------//
 
-        mOnceAudio_Obj = Resources.Load("Prefab/Once_Audio") as GameObject;
+       // mOnceAudio_Obj = Resources.Load("Prefab/Once_Audio") as GameObject;
     }
 
     private void OnDisable()
@@ -160,7 +161,7 @@ public class SynMike : MonoBehaviour
                        // if (GameManager.instance.userData.userSound.flagMike == true && Microphone.devices.Length != 0 && GameManager.instance.userData.isSoundCard == false) // 사운드 카드 동시에 안되게
                         //if (GameManager.Instance.userData.userSound.flagMike == true && Microphone.devices.Length != 0) // 사운드카드 동시에 되게
                         {
-                            if (GameManager.instance.userData.userObject.GetComponent<SynMike>().masterMikeFlag == true) // 선생님은 무조건 MasterMikeFlag True함
+                            if (true) //  무조건 MasterMikeFlag True함
                             {
                                 mCurrentSendMike_Count++;
                                 for (int i = 0; i < recordMikeData.Length; i++)
@@ -168,36 +169,46 @@ public class SynMike : MonoBehaviour
                                     mSendMikeAudioBuffer.Add(recordMikeData[i]);
                                 }
 
-                                mMaxSendAudio_Count = 5;
+                                mMaxSendAudio_Count = 15;
 
-                                if (mCurrentSendMike_Count >= mMaxSendAudio_Count)
+                                //if (mCurrentSendMike_Count >= mMaxSendAudio_Count)
+                                yield return new WaitForSeconds(1);
                                 {
                                     mCurrentSendMike_Count = 0;
                                     byte[] sendBytes = ToByteArray(mSendMikeAudioBuffer.ToArray());
 
-                                    if (sendBytes != null)
+                                 
+
+                                    if (GameManager.instance.userData.userId.Equals("홍길동")) // 수정 필요
                                     {
                                         var request = new CSBaseLib.PKTAudioData()
                                         {
-                                            Audio_Data = DataCompression.Compress(sendBytes),
+                                            Audio_Data = SavWav.Save(mRecordVoiceMike_Source.clip),
                                             UserID = GameManager.instance.userData.userId,
                                             AudioType = 0,
                                             Channels = mRecordVoiceMike_Source.clip.channels,
                                             SampleRate = mRecordVoiceMike_Source.clip.samples,
                                             Frequnecy = mRecordVoiceMike_Source.clip.frequency,
                                         };
-
                                         GameManager.instance.tcpMainServerManager.SendAudioData_Mike(request);
-                                        mSendMikeAudioBuffer.Clear();
 
-                                       // Debug.Log("음성 데이터 바이트 길이 : " + sendBytes.Length + "    /  " + request.Audio_Data.Length);
                                     }
                                     else
                                     {
-                                        mSendMikeAudioBuffer.Clear();
-                                        //Debug.Log("변경됨!");
-                                        mMaxSendAudio_Count = 20;
+                                        var request_ = new CSBaseLib.PKTAudioData_Recive()
+                                        {
+                                            Audio_Data = SavWav.Save(mRecordVoiceMike_Source.clip),
+                                            UserID = GameManager.instance.userData.userId,
+                                            AudioType = 0,
+                                            Channels = mRecordVoiceMike_Source.clip.channels,
+                                            SampleRate = mRecordVoiceMike_Source.clip.samples,
+                                            Frequnecy = mRecordVoiceMike_Source.clip.frequency,
+                                        };
+                                        GameManager.instance.tcpMainServerManager.SendAudioData_Recive_Mike(request_);
                                     }
+                                  
+
+                                    mSendMikeAudioBuffer.Clear();
                                 }
                             }
                         }
@@ -222,7 +233,7 @@ public class SynMike : MonoBehaviour
             System.Array.Copy(data, 0, byteArray, pos, 4);
             pos += 4;
         }
-        if (DataCompression.Compress(byteArray).Length >= GameManager.instance.buildOption.maxPacketSize)
+        if (byteArray.Length >= GameManager.instance.buildOption.maxPacketSize)
         {
             return null;
         }

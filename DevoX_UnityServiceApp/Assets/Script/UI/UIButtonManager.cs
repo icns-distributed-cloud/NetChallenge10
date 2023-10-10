@@ -31,20 +31,36 @@ public class UIButtonManager : MonoBehaviour
 
             GameManager.instance.dataManager.SaveData();
 
+            GameManager.instance.mainServerProc.Init();
             SceneManager.LoadScene("UserScene");
         }
     }
 
+    public void CallingButton()
+    {
+        GameManager.instance.tcpMainServerManager.SendCall(GameManager.instance.userData.userId, "김하나");// 수정 필요
+    }
+
+    public void LoadScene(string SceneName)
+    {
+        SceneManager.LoadScene(SceneName);
+    }
+
+    public void SendAgreeCallButton()
+    {
+        GameManager.instance.tcpMainServerManager.SendAgreeCall(GameManager.instance.userData.userId, "홍길동");// 수정 필요
+    }
+
     public void RegisterButton(GameObject obj)
     {
-        if (RegisterID_Input.text.Length != 0 && LoginPassWord_Input.text.Length != 0)
+        if (RegisterID_Input.text.Length != 0 && RegisterPassWord_Input.text.Length != 0)
         {
             if (IsAgreeToggle.isOn == true)
             {
                 GameManager.instance.userData.isAgree = true;
 
                 GameManager.instance.userData.userId = RegisterID_Input.text;
-                GameManager.instance.userData.userPassWord = LoginPassWord_Input.text;
+                GameManager.instance.userData.userPassWord = RegisterPassWord_Input.text;
 
                 GameManager.instance.dataManager.SaveData();
 

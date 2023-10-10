@@ -62,6 +62,15 @@ public class GameManager : MonoBehaviour
             return mJoinRoomManager;
         }
     }
+    private MainServerProc mMainServerProc;
+
+    public MainServerProc mainServerProc
+    {
+        get
+        {
+            return mMainServerProc;
+        }
+    }
 
     void init()
     {
@@ -79,6 +88,8 @@ public class GameManager : MonoBehaviour
 
         mJoinRoomManager = gameObject.AddComponent<JoinUserManager>();
         SceneManager.LoadScene("LobbyScene");
+
+        mMainServerProc = gameObject.AddComponent<MainServerProc>();
 
         DontDestroyOnLoad(this);
 

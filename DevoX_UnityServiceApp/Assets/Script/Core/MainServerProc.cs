@@ -10,14 +10,8 @@ using UnityEngine.SceneManagement;
 public class MainServerProc : MonoBehaviour
 {
     private bool mParticipationLevel_Flag;
-
-    // Start is called before the first frame update
-    private void Start()
-    {
-        Init();
-    }
-
-    private void Init()
+   
+    public void Init()
     {
         mParticipationLevel_Flag = false;
         StartCoroutine("Start_MainProc");
@@ -59,7 +53,7 @@ public class MainServerProc : MonoBehaviour
        // UnityObject.OnActive(GameManager.instance.uIManager.popUpGroup.transform.Find("LoaddingPopup").gameObject);
 
        // GameManager.instance.userData.lecture_Data_Res.mapMaxUser = 50; // test
-        GameManager.instance.userData.tcpServerIp = "45.248.75.170"; // test
+        GameManager.instance.userData.tcpServerIp = "163.180.117.186"; // test
        // GameManager.instance.userData.tcpServerIp = "127.0.0.1"; // test
 
         GameManager.instance.tcpMainServerManager.Init(GameManager.instance.userData.tcpServerIp, GameManager.instance.buildOption.tcpServerPort); // 먼저 TCP 서버 접속 후

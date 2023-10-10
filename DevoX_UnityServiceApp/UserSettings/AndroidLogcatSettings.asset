@@ -1,59 +1,59 @@
 {
-    "m_SelectedDeviceId": "27dcf5a07c217ece",
+    "m_SelectedDeviceId": "R5CT21ZE7WP",
     "m_SelectedPackage": {
-        "deviceId": "27dcf5a07c217ece",
+        "deviceId": "R5CT21ZE7WP",
         "name": "com.DefaultCompany.MetaClass",
-        "processId": 1424,
+        "processId": 14727,
         "exited": false
     },
     "m_SelectedPriority": 0,
     "m_KnownPackagesForSerialization": [
         {
             "deviceId": "R5CT21ZE7WP",
-            "name": "com.DefaultCompany.MetaClass",
-            "processId": 19794,
-            "exited": true
-        },
-        {
-            "deviceId": "R5CT21ZE7WP",
-            "name": "com.DefaultCompany.MetaClass",
-            "processId": 26969,
-            "exited": true
-        },
-        {
-            "deviceId": "R5CT21ZE7WP",
-            "name": "com.DefaultCompany.MetaClass",
-            "processId": 1891,
-            "exited": true
-        },
-        {
-            "deviceId": "R5CT21ZE7WP",
-            "name": "com.DefaultCompany.MetaClass",
-            "processId": 14286,
-            "exited": true
-        },
-        {
-            "deviceId": "R5CT21ZE7WP",
-            "name": "com.DefaultCompany.MetaClass",
-            "processId": 11472,
-            "exited": true
-        },
-        {
-            "deviceId": "R5CT21ZE7WP",
             "name": "com.sec.android.app.launcher",
-            "processId": 3485,
+            "processId": 3512,
             "exited": false
         },
         {
             "deviceId": "R5CT21ZE7WP",
             "name": "com.DefaultCompany.MetaClass",
-            "processId": 19462,
+            "processId": 6685,
+            "exited": true
+        },
+        {
+            "deviceId": "R5CT21ZE7WP",
+            "name": "com.DefaultCompany.MetaClass",
+            "processId": 10258,
+            "exited": true
+        },
+        {
+            "deviceId": "R5CT21ZE7WP",
+            "name": "com.DefaultCompany.MetaClass",
+            "processId": 13761,
+            "exited": true
+        },
+        {
+            "deviceId": "R5CT21ZE7WP",
+            "name": "com.DefaultCompany.MetaClass",
+            "processId": 27588,
+            "exited": true
+        },
+        {
+            "deviceId": "R5CT21ZE7WP",
+            "name": "com.DefaultCompany.MetaClass",
+            "processId": 28894,
+            "exited": true
+        },
+        {
+            "deviceId": "R5CT21ZE7WP",
+            "name": "com.DefaultCompany.MetaClass",
+            "processId": 8539,
             "exited": false
         },
         {
             "deviceId": "R5CT21ZE7WP",
             "name": "com.DefaultCompany.MetaClass",
-            "processId": 27235,
+            "processId": 14727,
             "exited": false
         },
         {
@@ -132,6 +132,18 @@
             "deviceId": "27dcf5a07c217ece",
             "name": "com.DefaultCompany.MetaClass",
             "processId": 1424,
+            "exited": false
+        },
+        {
+            "deviceId": "R3CM90LLWCL",
+            "name": "com.DefaultCompany.MetaClass",
+            "processId": 21589,
+            "exited": false
+        },
+        {
+            "deviceId": "R3CM90LLWCL",
+            "name": "com.DefaultCompany.MetaClass",
+            "processId": 25525,
             "exited": false
         }
     ],

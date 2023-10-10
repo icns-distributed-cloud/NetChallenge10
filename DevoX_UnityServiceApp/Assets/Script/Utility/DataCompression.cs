@@ -6,35 +6,11 @@ public static class DataCompression
 {
     public static byte[] Decompress(byte[] data)
     {
-        try
-        {
-            if (data == null)
-            {
-                return null;
-            }
-            MemoryStream input = new MemoryStream(data);
-            MemoryStream output = new MemoryStream();
-            using (DeflateStream dstream = new DeflateStream(input, CompressionMode.Decompress))
-            {
-                dstream.CopyTo(output);
-            }
-            return output.ToArray();
-        }
-        catch
-        {
-            return null;
-        }
-    
-        return null;
+        return data;
     }
 
     public static byte[] Compress(byte[] data)
     {
-        MemoryStream output = new MemoryStream();
-        using (DeflateStream dstream = new DeflateStream(output, System.IO.Compression.CompressionLevel.Optimal))
-        {
-            dstream.Write(data, 0, data.Length);
-        }
-        return output.ToArray();
+        return data;
     }
 }
