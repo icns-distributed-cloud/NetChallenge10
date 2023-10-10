@@ -60,7 +60,7 @@ def parse_args():
         '--round_num',
         type=int,
         required=False,
-        default=50,
+        default=-1,
         help='set round number'
     )
     parser.add_argument(
@@ -109,6 +109,7 @@ def main(today_date):
     present = get_today()
 
     if (present > today_date):
+        count = 0
         shutil.rmtree(os.path.join(args.copy_path, today_date))
     else:
         today_date = present
