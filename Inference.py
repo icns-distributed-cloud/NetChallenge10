@@ -37,7 +37,7 @@ def parse_args():
     parser.add_argument(
         '--data_path',
         required=False,
-        default='./data',
+        default='./Audio',
         type=str,
         help='data path for inference '
     )
@@ -73,7 +73,7 @@ def parse_args():
         '--copy_path',
         type=str,
         required=False,
-        default='/root/Inference/NetChallenge10/data/to_core',
+        default='./Audio/to_core',
         help='set round number'
     )
     args = parser.parse_args()
@@ -121,7 +121,9 @@ def main():
             data_type = 'recive'
 
         data_path = os.path.join(args.data_path, data_type)
-        file_name = str(len(os.listdir(data_path))) + '.wav'
+        file_list = os.listdir(data_path)
+        file_name = file_list.pop().split('_')[0]
+        file_name = file_name + '_' + str(len(file_list)) + '.wav'
         test_data = {
             'wav' : os.path.join(data_path, file_name),
         }
