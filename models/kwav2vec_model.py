@@ -58,7 +58,6 @@ class Kwav2vec():
 
     def __call__(self,batch):
         self.args.cuda = 'cuda:0' if torch.cuda.is_available() else 'cpu'
-        print(self.args.cuda, 'working ')
         hidden_batch = torch.Tensor().to(self.args.cuda)
 
         for data in batch:

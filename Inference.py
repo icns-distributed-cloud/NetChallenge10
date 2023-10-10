@@ -7,6 +7,9 @@ from sklearn.metrics import accuracy_score, recall_score, precision_score, f1_sc
 from config import *
 from utils import *
 
+from logging import handlers
+import logging
+
 from datetime import datetime
 import ftplib
 import shutil
@@ -105,15 +108,36 @@ def inference(model, test_data):
     return outputs
 
 def main(today_date):
+    # Setting Variables
     count = 0
     present = get_today()
 
+    # Set log
+    ## log settings
+    LogFormatter = logging.Formatter('%(asctime)s,%(message)s')
+
+    ## handler settings
+    LogHandler = handlers.TimedRotatingFileHandler(filename='Inferencing.log', when='midnight', interval=1, encoding='utf-8')
+    LogHandler.setFormatter(LogFormatter)
+    LogHandler.suffix = "%Y%m%d"
+
+    ## logger set
+    Logger = logging.getLogger()
+    Logger.setLevel(logging.INFO)
+    Logger.addHandler(LogHandler)
+
+    # Get Time
     if (present > today_date):
         count = 0
         shutil.rmtree(os.path.join(args.copy_path, today_date))
     else:
         today_date = present
 
+    
+    # Model setting
+    # 모델 불러오기
+    model = torch.load('./ckpt/{}.pt'.format(args.model_name), map_location=torch.device(args.cuda))
+    
     while(True):
         if((args.round_num > 0) and (count > args.round_num)):
             break
@@ -135,27 +159,31 @@ def main(today_date):
         test_data = {
             'wav' : os.path.join(data_path, file_name),
         }
+        #use logger
+        Logger.info("read {}".format(test_data['wav']))
 
-        # 모델 불러오기
-        model = torch.load('./ckpt/{}.pt'.format(args.model_name), map_location=torch.device(args.cuda))
+        # inferencing
         result = inference(model, test_data)
         
         # if it is fake voice
         os.makedirs(os.path.join(args.copy_path, today_date), exist_ok=True)
 
         if ((result[0] < result[1]) and (result[1] > args.fake_line)):
+            file_result = 'fake'
             os.makedirs(args.result_path, exist_ok=True)
             result_path = os.path.join(args.result_path, 'Result.txt')
             with open(result_path, 'w') as f:
                 data = owner_name
                 f.write(data)
 
-            os.makedirs(os.path.join(args.copy_path, today_date, 'fake'), exist_ok=True)
-            shutil.copy(test_data['wav'], os.path.join(args.copy_path, today_date, 'fake', file_name))
         else:
-            os.makedirs(os.path.join(args.copy_path, today_date, 'real'), exist_ok=True)
-            shutil.copy(test_data['wav'], os.path.join(args.copy_path, today_date, 'real', file_name))
+            file_result = 'real'
 
+        os.makedirs(os.path.join(args.copy_path, today_date, file_result), exist_ok=True)
+        shutil.copy(test_data['wav'], os.path.join(args.copy_path, today_date, file_result, file_name))
+        
+        #use logger
+        Logger.info("write {} as {} data".format(os.path.join(args.copy_path, today_date, 'fake', file_name), file_result))
         time.sleep(args.sleep_time)
         
 if __name__ == '__main__':
