@@ -82,6 +82,8 @@ def train(model,optimizer, dataloader):
     for batch_id, batch in enumerate(dataloader):
         batch_x, batch_y = batch[0], batch[1]
         outputs = model(batch_x)
+        if len(outputs.shape) < 2:
+            outputs.reshape(1, outputs.shape)
         loss = loss_func(outputs.to(torch.float32).to(train_config['cuda']), batch_y.to(torch.float32).to(train_config['cuda']))
         loss_list.append(loss.item())
         
@@ -118,7 +120,7 @@ def main():
     # 모델 생성
     '''
     if (os.path.isfile(path)):
-        model = torch.load('./ckpt/{}.pt'.format(path))
+        model = torch.load('./ckpt/{}.pt'.format(args.model_name))
     else:
         model = Kwav2vec_classfier(audio_conf, classifier_conf)
     '''
@@ -148,7 +150,7 @@ def main():
         # 5의 배수 epoch마다 모델 저장
         if (epoch+1) % 5 == 0:
             if args.save:
-                torch.save(model,'./ckpt/{}_epoch{}.pt'.format(args.model_name,epoch))
+                torch.save(model,'./ckpt/{}.pt'.format(args.model_name))
 
 
 
