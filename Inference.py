@@ -117,7 +117,8 @@ def main(today_date):
     LogFormatter = logging.Formatter('%(asctime)s,%(message)s')
 
     ## handler settings
-    LogHandler = handlers.TimedRotatingFileHandler(filename='Inferencing.log', when='midnight', interval=1, encoding='utf-8')
+    os.makedirs('log', exist_ok=True)
+    LogHandler = handlers.TimedRotatingFileHandler(filename='./log/Inferencing.log', when='midnight', interval=1, encoding='utf-8')
     LogHandler.setFormatter(LogFormatter)
     LogHandler.suffix = "%Y%m%d"
 
