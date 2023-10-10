@@ -7,6 +7,7 @@ from sklearn.metrics import accuracy_score, recall_score, precision_score, f1_sc
 from config import *
 from utils import *
 
+from datetime import datetime
 import ftplib
 import shutil
 import time
@@ -45,7 +46,7 @@ def parse_args():
     parser.add_argument(
         '--result_path',
         type=str,
-        default= './result.txt',
+        default= './Audio/Result',
         help='the result path'
     )
     parser.add_argument(
@@ -84,6 +85,8 @@ args = parse_args()
 if args.cuda != 'cuda:0':
     audio_config['cuda'] = args.cuda
 
+def get_today():
+    return ('-').join(list(map(str, [datetime.today().year, datetime.today().month, datetime.today().day])))
 
 def inference(model, test_data):
     start_time = time.time()
@@ -101,10 +104,14 @@ def inference(model, test_data):
     print("inference time : ", round(inference_time, 2), "초")
     return outputs
 
-def main():
+def main(today_date):
     count = 0
-    os.makedirs(os.path.join(args.copy_path, 'fake'), exist_ok=True)
-    os.makedirs(os.path.join(args.copy_path, 'real'), exist_ok=True)
+    present = get_today()
+
+    if (present > today_date):
+        shutil.rmtree(os.path.join(args.copy_path, today_date))
+    else:
+        today_date = present
 
     while(True):
         if((args.round_num > 0) and (count > args.round_num)):
@@ -133,27 +140,24 @@ def main():
         result = inference(model, test_data)
         
         # if it is fake voice
+        os.makedirs(os.path.join(args.copy_path, today_date), exist_ok=True)
+
         if ((result[0] < result[1]) and (result[1] > args.fake_line)):
-            with open(args.result_path, 'w') as f:
+            os.makedirs(args.result_path, exist_ok=True)
+            result_path = os.path.join(args.result_path, 'Result.txt')
+            with open(result_path, 'w') as f:
                 data = data_type
                 f.write(data)
-            
-            shutil.copy(test_data['wav'], os.path.join(args.copy_path, 'fake', file_name))
+
+            os.makedirs(os.path.join(args.copy_path, today_date, 'fake'), exist_ok=True)
+            shutil.copy(test_data['wav'], os.path.join(args.copy_path, today_date, 'fake', file_name))
         else:
-            os.makedirs(os.path.join(args.copy_path, 'real'), exist_ok=True)
-            shutil.copy(test_data['wav'], os.path.join(args.copy_path, 'real', file_name))
+            os.makedirs(os.path.join(args.copy_path, today_date, 'real'), exist_ok=True)
+            shutil.copy(test_data['wav'], os.path.join(args.copy_path, today_date, 'real', file_name))
 
         time.sleep(args.sleep_time)
-
-        if count % 100 == 0:
-            print('data_cleared')
-            for data_type in ['send', 'recive']:
-                data_path = os.path.joint(args.data_path, data_type)
-                for wavs in os.listdir(data_path):
-                    os.remove(os.path.join(data_path, wavs))
-            count = 0
         
 if __name__ == '__main__':
     import os
     os.environ['CUDA_LAUNCH_BLOCKING'] = "0"
-    main()
+    main(get_today())
