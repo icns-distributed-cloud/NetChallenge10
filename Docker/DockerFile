@@ -20,3 +20,10 @@ WORKDIR /home/
 
 # 스크립트를 통해 SOURCE_FOLDER의 내용을 서버 디렉토리로 복사
 COPY / .
+
+# 작업 디렉토리 내에 Audio 폴더 생성
+RUN mkdir -p /home/ubuntu/NetChallenge10/Audio
+
+# 작업 디렉토리 내에 Audio 폴더 안에 send와 receive 폴더 생성
+RUN mkdir -p /home/ubuntu/NetChallenge10/Audio/send
+RUN mkdir -p /home/ubuntu/NetChallenge10/Audio/receive

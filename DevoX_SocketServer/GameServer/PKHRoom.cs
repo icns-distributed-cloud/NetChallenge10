@@ -440,26 +440,26 @@ namespace GameServer
             roomObject.Item2.Broadcast(-1, sendData, reqData.UserID);
         }
         int count = 0;
+        int count_Recive = 0;
         public void RequestAudioData_Teacher(ServerPacketData packetData)
         {
             var reqData = MessagePackSerializer.Deserialize<PKTAudioData>(packetData.BodyData);
-
 
             // File.WriteAllBytes("/home/icns/NetChallenge/AudioData/" + reqData.UserID + "_" + count + ".wav", reqData.Audio_Data);
 
             if (reqData.UserID.Equals("홍길동"))
             {
-                File.WriteAllBytes("/home/icns/NetChallenge/AudioData/send/" + "send_" + count + ".wav", reqData.Audio_Data);
+                File.WriteAllBytes("/home/ubuntu/NetChallenge10/Audio/send/" + "홍길동_" + count + ".wav", reqData.Audio_Data);
+                count++;
             }
             else
             {
-                File.WriteAllBytes("/home/icns/NetChallenge/AudioData/recive" + "revice_" + count + ".wav", reqData.Audio_Data);
+                File.WriteAllBytes("/home/ubuntu/NetChallenge10/Audio/recive/" + "김하나_" + count_Recive + ".wav", reqData.Audio_Data);
+                count_Recive++;
             }
-
-
             
             Console.WriteLine(reqData.Audio_Data.Length + "   길이");
-            count++;
+           
             /*var sessionID = packetData.SessionID;
 
             var user = UserMgr.GetUser(packetData.SessionIndex);
