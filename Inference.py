@@ -130,8 +130,8 @@ def main(today_date):
 
         data_path = os.path.join(args.data_path, data_type)
         file_list = os.listdir(data_path)
-        file_name = file_list.pop().split('_')[0]
-        file_name = file_name + '_' + str(len(file_list)) + '.wav'
+        owner_name = file_list.pop().split('_')[0]
+        file_name = owner_name + '_' + str(len(file_list)) + '.wav'
         test_data = {
             'wav' : os.path.join(data_path, file_name),
         }
@@ -147,7 +147,7 @@ def main(today_date):
             os.makedirs(args.result_path, exist_ok=True)
             result_path = os.path.join(args.result_path, 'Result.txt')
             with open(result_path, 'w') as f:
-                data = data_type
+                data = owner_name
                 f.write(data)
 
             os.makedirs(os.path.join(args.copy_path, today_date, 'fake'), exist_ok=True)
