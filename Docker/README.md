@@ -6,7 +6,7 @@
 
 3. sudo iptables -I OUTPUT 1 -p tcp --dport 4200 -j ACCEPT
 
-4. docker build -t devox_socket -f DockerFile .
+4. docker build -t devox_socket -f Dockerfile .
 
 5. docker run -it -p 4200:4200 devox_socket /bin/bash
    =>docker run -it --privileged -p 4200:4200 devox_socket /bin/bash `--priviledged` 커맨드 추가
