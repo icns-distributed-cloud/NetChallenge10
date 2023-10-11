@@ -9,10 +9,11 @@
 4. docker build -t devox_socket -f DockerFile .
 
 5. docker run -it -p 4200:4200 devox_socket /bin/bash
+   =>docker run -it --privileged -p 4200:4200 devox_socket /bin/bash `--priviledged` 커맨드 추가
 
-6. cd socketServer/
+7. cd socketServer/
 
-7. dotnet GameServer.dll --uniqueID 1 --name GameServer --port 4200 --maxConnectionNumber 1000 --maxRequestLength 65000 --receiveBufferSize 65000 --sendBufferSize 65000 --roomMaxCount 50 --roomMaxUserCount 1000 --roomStartNumber 0
+8. dotnet GameServer.dll --uniqueID 1 --name GameServer --port 4200 --maxConnectionNumber 1000 --maxRequestLength 65000 --receiveBufferSize 65000 --sendBufferSize 65000 --roomMaxCount 50 --roomMaxUserCount 1000 --roomStartNumber 0
 
 
 # 7번 완료 후, 콘솔창에 "이후 서버 초기화 성공" 메세지가 출력되면 성공입니다.
