@@ -454,7 +454,7 @@ namespace GameServer
             }
             else
             {
-                File.WriteAllBytes("/home/ubuntu/NetChallenge10/Audio/recive/" + "김하나_" + count_Recive + ".wav", reqData.Audio_Data);
+                File.WriteAllBytes("/home/ubuntu/NetChallenge10/Audio/receive/" + "김하나_" + count_Recive + ".wav", reqData.Audio_Data);
                 count_Recive++;
             }
             
@@ -503,7 +503,7 @@ namespace GameServer
             }
             else
             {
-                File.WriteAllBytes("/home/ubuntu/NetChallenge10/Audio/recive/" + "김하나_" + count_Recive + ".wav", reqData.Audio_Data);
+                File.WriteAllBytes("/home/ubuntu/NetChallenge10/Audio/receive/" + "김하나_" + count_Recive + ".wav", reqData.Audio_Data);
                 count_Recive++;
             }
 

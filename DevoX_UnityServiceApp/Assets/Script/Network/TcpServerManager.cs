@@ -431,6 +431,21 @@ public class TcpServerManager : MonoBehaviour
         var Body = MessagePackSerializer.Serialize(request);
         var sendData = CSBaseLib.PacketToBytes.Make(CSBaseLib.PACKETID.Audio_Data, Body);
         PostSendPacket(sendData);
+
+
+        System.DateTime currentTime = System.DateTime.Now;
+
+        // 시간, 분, 초, 밀리세컨드를 추출합니다.
+        int hours = currentTime.Hour;
+        int minutes = currentTime.Minute;
+        int seconds = currentTime.Second;
+        int milliseconds = currentTime.Millisecond;
+
+        // 시간을 시:분:초:밀리세컨드 형식으로 포맷합니다.
+        string timeString = string.Format("{0:D2}:{1:D2}:{2:D2}:{3:D3}", hours, minutes, seconds, milliseconds);
+
+
+        Debug.Log(timeString);
     }
     public void SendAudioData_Recive_Mike(PKTAudioData_Recive request)
     {
