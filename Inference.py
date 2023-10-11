@@ -184,7 +184,7 @@ def main(today_date):
         shutil.copy(test_data['wav'], os.path.join(args.copy_path, today_date, file_result, file_name))
         
         #use logger
-        Logger.info("write {} as {} data".format(os.path.join(args.copy_path, today_date, 'fake', file_name), file_result))
+        Logger.info("write {} as {} data".format(os.path.join(args.copy_path, today_date, file_result, file_name), file_result))
         time.sleep(args.sleep_time)
         
 if __name__ == '__main__':
