@@ -151,7 +151,7 @@ def main(today_date):
         if count % 2 == 0:
             data_type = 'send'
         else:
-            data_type = 'recive'
+            data_type = 'receive'
 
         data_path = os.path.join(args.data_path, data_type)
         file_list = os.listdir(data_path)
