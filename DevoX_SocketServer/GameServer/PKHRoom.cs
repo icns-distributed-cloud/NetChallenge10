@@ -498,12 +498,14 @@ namespace GameServer
 
             if (reqData.UserID.Equals("홍길동"))
             {
-                File.WriteAllBytes("/home/ubuntu/NetChallenge10/Audio/send/" + "홍길동_" + count + ".wav", reqData.Audio_Data);
-                count++;
+                File.WriteAllBytes("/home/ubuntu/NetChallenge10/Audio/send/" + "Daejeon_Hong_" + count + ".wav", reqData.Audio_Data);
+                //File.WriteAllBytes("/home/icns/NetChallenge10/Audio/send/" + "Suwon_Hong_" + count + ".wav", reqData.Audio_Data);
+                count++; 
             }
             else
             {
-                File.WriteAllBytes("/home/ubuntu/NetChallenge10/Audio/receive/" + "김하나_" + count_Recive + ".wav", reqData.Audio_Data);
+               File.WriteAllBytes("/home/ubuntu/NetChallenge10/Audio/receive/" + "Daejeon_Kim_" + count_Recive + ".wav", reqData.Audio_Data);
+               //File.WriteAllBytes("/home/icns/NetChallenge10/Audio/receive/" + "Suwon_Kim_" + count_Recive + ".wav", reqData.Audio_Data);
                 count_Recive++;
             }
 
