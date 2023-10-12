@@ -346,6 +346,24 @@ namespace GameServer
                 return;
             }
 
+
+            System.DateTime currentTime = System.DateTime.Now;
+
+            // 시간, 분, 초, 밀리세컨드를 추출합니다.
+            int hours = currentTime.Hour;
+            int minutes = currentTime.Minute;
+            int seconds = currentTime.Second;
+            int milliseconds = currentTime.Millisecond;
+
+            // 시간을 시:분:초:밀리세컨드 형식으로 포맷합니다.
+            string timeString = string.Format("{0:D2}:{1:D2}:{2:D2}:{3:D3}", hours, minutes, seconds, milliseconds);
+
+            // MainLogger.Debug(string.Format("세션 번호 {0} 받은 데이터 크기: {1}, ThreadId: {2}, PacketID : {3}", session.SessionID, reqInfo.Body.Length, System.Threading.Thread.CurrentThread.ManagedThreadId, reqInfo.PacketID));
+            Console.WriteLine("위험 신호 발생!! 애플리케이션에 위험 신호 보냅니다!!  시간 : " + timeString);
+
+            //Console.WriteLine(timeString);
+
+
             roomObject.Item2.Broadcast(-1, sendData);
         }
         /// <summary>
