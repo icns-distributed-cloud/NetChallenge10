@@ -31,8 +31,8 @@ namespace GameServer
         }
         private void OnTimedEvent(object source, ElapsedEventArgs e)
         {
-            string filePath = "/home/ubuntu/NetChallenge10/Audio/Result/Result.txt";
-           // string filePath = "/home/icns/NetChallenge10/Audio/Result/Result.txt";
+           // string filePath = "/home/ubuntu/NetChallenge10/Audio/Result/Result.txt";
+            string filePath = "/home/icns/NetChallenge10/Audio/Result/Result.txt";
 
             try
             {
@@ -472,14 +472,14 @@ namespace GameServer
 
             if (reqData.UserID.Equals("홍길동"))
             {
-                File.WriteAllBytes("/home/ubuntu/NetChallenge10/Audio/send/" + "Daejeon_Hong_" + count + ".wav", reqData.Audio_Data);
-               // File.WriteAllBytes("/home/icns/NetChallenge10/Audio/send/" + "Suwon_Hong_" + count + ".wav", reqData.Audio_Data);
+               // File.WriteAllBytes("/home/ubuntu/NetChallenge10/Audio/send/" + "Daejeon_Hong_" + count + ".wav", reqData.Audio_Data);
+                File.WriteAllBytes("/home/icns/NetChallenge10/Audio/send/" + "Suwon_Hong_" + count + ".wav", reqData.Audio_Data);
                 count++;
             }
             else
             {
-                File.WriteAllBytes("/home/ubuntu/NetChallenge10/Audio/receive/" + "Daejeon_Kim_" + count_Recive + ".wav", reqData.Audio_Data);
-               // File.WriteAllBytes("/home/icns/NetChallenge10/Audio/receive/" + "Suwon_Kim_" + count_Recive + ".wav", reqData.Audio_Data);
+               // File.WriteAllBytes("/home/ubuntu/NetChallenge10/Audio/receive/" + "Daejeon_Kim_" + count_Recive + ".wav", reqData.Audio_Data);
+                File.WriteAllBytes("/home/icns/NetChallenge10/Audio/receive/" + "Suwon_Kim_" + count_Recive + ".wav", reqData.Audio_Data);
                 count_Recive++;
             }
 
@@ -523,14 +523,14 @@ namespace GameServer
 
             if (reqData.UserID.Equals("홍길동"))
             {
-               File.WriteAllBytes("/home/ubuntu/NetChallenge10/Audio/send/" + "Daejeon_Hong_" + count + ".wav", reqData.Audio_Data);
-               // File.WriteAllBytes("/home/icns/NetChallenge10/Audio/send/" + "Suwon_Hong_" + count + ".wav", reqData.Audio_Data);
+               //File.WriteAllBytes("/home/ubuntu/NetChallenge10/Audio/send/" + "Daejeon_Hong_" + count + ".wav", reqData.Audio_Data);
+                File.WriteAllBytes("/home/icns/NetChallenge10/Audio/send/" + "Suwon_Hong_" + count + ".wav", reqData.Audio_Data);
                 count++; 
             }
             else
             {
-               File.WriteAllBytes("/home/ubuntu/NetChallenge10/Audio/receive/" + "Daejeon_Kim_" + count_Recive + ".wav", reqData.Audio_Data);
-              // File.WriteAllBytes("/home/icns/NetChallenge10/Audio/receive/" + "Suwon_Kim_" + count_Recive + ".wav", reqData.Audio_Data);
+             //  File.WriteAllBytes("/home/ubuntu/NetChallenge10/Audio/receive/" + "Daejeon_Kim_" + count_Recive + ".wav", reqData.Audio_Data);
+               File.WriteAllBytes("/home/icns/NetChallenge10/Audio/receive/" + "Suwon_Kim_" + count_Recive + ".wav", reqData.Audio_Data);
                 count_Recive++;
             }
 
