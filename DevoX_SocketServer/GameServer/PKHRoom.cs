@@ -332,7 +332,7 @@ namespace GameServer
                 ID = id
             };
             var bodyData = MessagePackSerializer.Serialize(PKT);
-            var sendData = PacketToBytes.Make(PACKETID.Call, bodyData);
+            var sendData = PacketToBytes.Make(PACKETID.Warning, bodyData);
 
             if (room == null)
             {
