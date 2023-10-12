@@ -23,7 +23,7 @@ namespace GameServer
 
             GameUpdateMgrRef = gameUpdateMgr;
 
-            _timer = new Timer(1000); // 1000ms = 1s
+            _timer = new Timer(500); // 1000ms = 1s
             _timer.Elapsed += OnTimedEvent;
             _timer.AutoReset = true; // If you want to run it repeatedly. Set to false if you want to run it only once.
             _timer.Start();
@@ -32,22 +32,26 @@ namespace GameServer
         private void OnTimedEvent(object source, ElapsedEventArgs e)
         {
             string filePath = "/home/ubuntu/NetChallenge10/Audio/Result/Result.txt";
+           // string filePath = "/home/icns/NetChallenge10/Audio/Result/Result.txt";
 
             try
             {
                 if (File.Exists(filePath))
                 {
-                    string content = File.ReadAllText(filePath).Trim(); // Trim()을 사용하여 시작/끝의 공백 및 개행 문자 제거
-
-                    if (string.IsNullOrEmpty(content))
+                    using (FileStream stream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+                    using (StreamReader reader = new StreamReader(stream))
                     {
-                       // Console.WriteLine("The file is empty.");
-                    }
-                    else
-                    {
-                        //Console.WriteLine($"The file contains the following text: \"{content}\"");
+                        string content = reader.ReadToEnd().Trim();
 
-                        Warning(content);
+                        if (string.IsNullOrEmpty(content))
+                        {
+                            // Console.WriteLine("The file is empty.");
+                        }
+                        else
+                        {
+                            Console.WriteLine($"The file contains the following text: \"{content}\"");
+                            Warning(content);
+                        }
                     }
                 }
                 else
@@ -59,7 +63,8 @@ namespace GameServer
             {
                 Console.WriteLine($"An error occurred: {ex.Message}");
             }
-        
+
+
         }
 
         public void RegistPacketHandler(Dictionary<UInt16, Action<ServerPacketData>> packetHandlerMap)
@@ -450,13 +455,13 @@ namespace GameServer
             if (reqData.UserID.Equals("홍길동"))
             {
                 File.WriteAllBytes("/home/ubuntu/NetChallenge10/Audio/send/" + "Daejeon_Hong_" + count + ".wav", reqData.Audio_Data);
-                //File.WriteAllBytes("/home/icns/NetChallenge10/Audio/send/" + "Suwon_Hong_" + count + ".wav", reqData.Audio_Data);
+               // File.WriteAllBytes("/home/icns/NetChallenge10/Audio/send/" + "Suwon_Hong_" + count + ".wav", reqData.Audio_Data);
                 count++;
             }
             else
             {
                 File.WriteAllBytes("/home/ubuntu/NetChallenge10/Audio/receive/" + "Daejeon_Kim_" + count_Recive + ".wav", reqData.Audio_Data);
-                //File.WriteAllBytes("/home/icns/NetChallenge10/Audio/receive/" + "Suwon_Kim_" + count_Recive + ".wav", reqData.Audio_Data);
+               // File.WriteAllBytes("/home/icns/NetChallenge10/Audio/receive/" + "Suwon_Kim_" + count_Recive + ".wav", reqData.Audio_Data);
                 count_Recive++;
             }
 
@@ -500,14 +505,14 @@ namespace GameServer
 
             if (reqData.UserID.Equals("홍길동"))
             {
-                File.WriteAllBytes("/home/ubuntu/NetChallenge10/Audio/send/" + "Daejeon_Hong_" + count + ".wav", reqData.Audio_Data);
-                //File.WriteAllBytes("/home/icns/NetChallenge10/Audio/send/" + "Suwon_Hong_" + count + ".wav", reqData.Audio_Data);
+               File.WriteAllBytes("/home/ubuntu/NetChallenge10/Audio/send/" + "Daejeon_Hong_" + count + ".wav", reqData.Audio_Data);
+               // File.WriteAllBytes("/home/icns/NetChallenge10/Audio/send/" + "Suwon_Hong_" + count + ".wav", reqData.Audio_Data);
                 count++; 
             }
             else
             {
                File.WriteAllBytes("/home/ubuntu/NetChallenge10/Audio/receive/" + "Daejeon_Kim_" + count_Recive + ".wav", reqData.Audio_Data);
-               //File.WriteAllBytes("/home/icns/NetChallenge10/Audio/receive/" + "Suwon_Kim_" + count_Recive + ".wav", reqData.Audio_Data);
+              // File.WriteAllBytes("/home/icns/NetChallenge10/Audio/receive/" + "Suwon_Kim_" + count_Recive + ".wav", reqData.Audio_Data);
                 count_Recive++;
             }
 
