@@ -149,7 +149,23 @@ namespace GameServer
 
         private void OnPacketReceived(ClientSession session, EFBinaryRequestInfo reqInfo)
         {
-            MainLogger.Debug(string.Format("세션 번호 {0} 받은 데이터 크기: {1}, ThreadId: {2}, PacketID : {3}", session.SessionID, reqInfo.Body.Length, System.Threading.Thread.CurrentThread.ManagedThreadId, reqInfo.PacketID));
+            System.DateTime currentTime = System.DateTime.Now;
+
+            // 시간, 분, 초, 밀리세컨드를 추출합니다.
+            int hours = currentTime.Hour;
+            int minutes = currentTime.Minute;
+            int seconds = currentTime.Second;
+            int milliseconds = currentTime.Millisecond;
+
+            // 시간을 시:분:초:밀리세컨드 형식으로 포맷합니다.
+            string timeString = string.Format("{0:D2}:{1:D2}:{2:D2}:{3:D3}", hours, minutes, seconds, milliseconds);
+
+            // MainLogger.Debug(string.Format("세션 번호 {0} 받은 데이터 크기: {1}, ThreadId: {2}, PacketID : {3}", session.SessionID, reqInfo.Body.Length, System.Threading.Thread.CurrentThread.ManagedThreadId, reqInfo.PacketID));
+            Console.WriteLine(string.Format("시간 : {0}, 세션 번호 {1} 받은 데이터 크기: {2}, ThreadId: {3}, PacketID : {4}", timeString, session.SessionID, reqInfo.Body.Length, System.Threading.Thread.CurrentThread.ManagedThreadId, reqInfo.PacketID));
+
+            //Console.WriteLine(timeString);
+
+           
 
             var packet = new ServerPacketData();
             packet.SessionID = session.SessionID;

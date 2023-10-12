@@ -226,7 +226,13 @@ public class TcpServerManager : MonoBehaviour
 
                     if (GameManager.instance.userData.userId.Equals(data.ID))
                     {
-                        GameObject.Find("ScriptGroup").transform.Find("AlramManager").GetComponent<AlramManager>().onPopup();
+                        try
+                        {
+                            GameObject.Find("ScriptGroup").transform.Find("AlramManager").GetComponent<AlramManager>().onPopup();
+                        }
+                        catch
+                        { 
+                        }
                     }
                 }
             }
