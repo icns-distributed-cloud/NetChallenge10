@@ -241,11 +241,12 @@ namespace GameServer
 
             ServerNetwork.SendData(sessionID, sendData);
         }
+        int SessionIndex_ = 0; 
         /// <summary>
         public void Call(ServerPacketData packetData)
         {
             var sessionID = packetData.SessionID;
-
+            SessionIndex_ = packetData.SessionIndex;
             var user = UserMgr.GetUser(packetData.SessionIndex);
 
             if (user == null)
@@ -317,8 +318,7 @@ namespace GameServer
 
         public void Warning(string id)
         {
-
-            var user = UserMgr.FindUser_Name("김하나");
+            var user = UserMgr.GetUser(SessionIndex_);
 
             if (user == null)
             {

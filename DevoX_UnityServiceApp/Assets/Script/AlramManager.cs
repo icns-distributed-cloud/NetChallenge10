@@ -15,9 +15,14 @@ public class AlramManager : MonoBehaviour
     {
         StopCoroutine("startAction");
     }
-
+    bool isStart = false;
     IEnumerator startAction()
     {
+        if (isStart == true)
+        {
+            yield break;
+        }
+        isStart = true;
         popupObj.SetActive(true);
 
         while (true)
