@@ -19,7 +19,7 @@ namespace GameServer
 
             serverApp.CreateStartServer();
 
-            MainServer.MainLogger.Info("Press q to shut down the server");
+            Console.WriteLine("Press q to shut down the server");
 
             while (true)
             {

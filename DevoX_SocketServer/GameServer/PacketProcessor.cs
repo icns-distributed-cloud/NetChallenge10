@@ -55,7 +55,7 @@ namespace GameServer
             IsThreadRunning = false;
             MsgBuffer.Complete();
 
-            MainServer.MainLogger.Info("[PacketProcessor.Destory] End");
+            Console.WriteLine("[PacketProcessor.Destory] End");
         }
 
         public void InsertPacket(ServerPacketData data)
