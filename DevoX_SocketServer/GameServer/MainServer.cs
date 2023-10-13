@@ -161,8 +161,7 @@ namespace GameServer
             string timeString = string.Format("{0:D2}:{1:D2}:{2:D2}:{3:D3}", hours, minutes, seconds, milliseconds);
 
             // MainLogger.Debug(string.Format("세션 번호 {0} 받은 데이터 크기: {1}, ThreadId: {2}, PacketID : {3}", session.SessionID, reqInfo.Body.Length, System.Threading.Thread.CurrentThread.ManagedThreadId, reqInfo.PacketID));
-           // Console.WriteLine(string.Format("시간 : {0}, 세션 번호 {1} 받은 데이터 크기: {2}, ThreadId: {3}, PacketID : {4}", timeString, session.SessionID, reqInfo.Body.Length, System.Threading.Thread.CurrentThread.ManagedThreadId, reqInfo.PacketID));
-            Console.WriteLine(string.Format("세션 번호 {0} 받은 데이터 크기: {1}, ThreadId: {2}, PacketID : {3}", session.SessionID, reqInfo.Body.Length, System.Threading.Thread.CurrentThread.ManagedThreadId, reqInfo.PacketID));
+            Console.WriteLine(string.Format("시간 : {0}, 세션 번호 {1} 받은 데이터 크기: {2}, ThreadId: {3}, PacketID : {4}", timeString, session.SessionID, reqInfo.Body.Length, System.Threading.Thread.CurrentThread.ManagedThreadId, reqInfo.PacketID));
 
             //Console.WriteLine(timeString);
 
