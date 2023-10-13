@@ -58,7 +58,7 @@ namespace GameServer
                 else
                 {
                     MainLogger = base.Logger;
-                    Console.WriteLine("서버 초기화 성공");
+                    MainLogger.Info("서버 초기화 성공");
                 }
 
 
@@ -66,7 +66,7 @@ namespace GameServer
 
                 Start();
 
-                Console.WriteLine("서버 생성 성공");
+                MainLogger.Info("서버 생성 성공");
             }
             catch (Exception ex)
             {
@@ -92,7 +92,7 @@ namespace GameServer
             MainPacketProcessor = new PacketProcessor();
             MainPacketProcessor.CreateAndStart(RoomMgr.GetRoomsList(), this);
 
-            Console.WriteLine("CreateComponent - Success");
+            MainLogger.Info("CreateComponent - Success");
             return ERROR_CODE.NONE;
         }
 
@@ -130,7 +130,7 @@ namespace GameServer
             //옵션의 최대 연결 수를 넘으면 SuperSocket이 바로 접속을 짤라버린다. 즉 이 OnConneted 함수가 호출되지 않는다
 
             session.AllocSessionIndex();
-            Console.WriteLine(string.Format("세션 번호 {0} 접속", session.SessionID));
+            MainLogger.Info(string.Format("세션 번호 {0} 접속", session.SessionID));
 
             var packet = ServerPacketData.MakeNTFInConnectOrDisConnectClientPacket(true, session.SessionID, session.SessionIndex);
             Distribute(packet);
@@ -138,7 +138,7 @@ namespace GameServer
 
         private void OnClosed(ClientSession session, CloseReason reason)
         {
-            Console.WriteLine(string.Format("세션 번호 {0} 접속해제: {1}", session.SessionID, reason.ToString()));
+            MainLogger.Info(string.Format("세션 번호 {0} 접속해제: {1}", session.SessionID, reason.ToString()));
 
 
             var packet = ServerPacketData.MakeNTFInConnectOrDisConnectClientPacket(false, session.SessionID, session.SessionIndex);
