@@ -3,8 +3,12 @@ dataset_config = {
     'test_size' : 0.2,
     'shuffle' : True,
     'random_state' : 123,
+    #'real_dataset_folders': ['LJSpeech-1.1', 'data'],
+    #'fake_dataset_folders': ['generated_audio']
+    #'real_dataset_folders': ['data'],
+    #'fake_dataset_folders': ['voice_output', 'voice_output_2']
     'real_dataset_folders': ['LJSpeech-1.1', 'data'],
-    'fake_dataset_folders': ['generated_audio']
+    'fake_dataset_folders': ['generated_audio', 'voice_output', 'voice_output_2']
 }
     
 audio_config = {
@@ -19,7 +23,7 @@ audio_config = {
 }
 
 train_config = {
-    'epochs': 5,
+    'epochs': 100,
     #'epochs': 30,
     'batch_size': 16,
     'lr': 5e-5,

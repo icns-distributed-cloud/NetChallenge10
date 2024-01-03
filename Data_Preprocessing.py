@@ -17,9 +17,9 @@ def search_wav(label, path):
     return temp
 
 
-def Generate_Balanced_Dataset(fake_dataset_list):
+def Generate_Balanced_Dataset(larger_dataset, smaller_dataset):
     import random
-    return random.sample(fake_dataset_list, len(real_dataset_list))
+    return random.sample(larger_dataset, len(smaller_dataset))
     
 def Save_As_Json(PATH, data_list, file_name):
     base_json = {"data":[]}
@@ -67,19 +67,22 @@ if __name__ == '__main__':
     print('length of real:', len(real_dataset_list))
     print('length of fake:', len(fake_dataset_list))
 
-    balanced_fake_data_list = Generate_Balanced_Dataset(fake_dataset_list)
-    print('length of balanced fake:', len(balanced_fake_data_list))
+    if len(real_dataset_list) > len(fake_dataset_list):
+        real_dataset_list = Generate_Balanced_Dataset(real_dataset_list, fake_dataset_list)
+    else:
+        fake_dataset_list = Generate_Balanced_Dataset(fake_dataset_list, real_dataset_list)
+
+    print('length of balanced:', len(fake_dataset_list), len(real_dataset_list))
 
     PATH = os.path.join(os.getcwd(), 'data')
     print('save dataset path:', PATH)
     os.makedirs(PATH, exist_ok=True)
 
     # Save dataset
-    Save_As_Json(PATH, real_dataset_list+fake_dataset_list, 'total_data.json')
-    Save_As_Json(PATH, real_dataset_list+balanced_fake_data_list, 'balanced_total_data.json')
+    Save_As_Json(PATH, real_dataset_list+fake_dataset_list, 'balanced_total_data.json')
 
     #Save Split dataset
-    train_data, test_data = train_test_split(real_dataset_list+balanced_fake_data_list, train_size=args['train_size'], test_size=args['test_size'], random_state=args['random_state'], shuffle=args['shuffle'])
+    train_data, test_data = train_test_split(real_dataset_list+fake_dataset_list, train_size=args['train_size'], test_size=args['test_size'], random_state=args['random_state'], shuffle=args['shuffle'])
     Save_As_Json(PATH, train_data, 'train_preprocessed_data.json')
     print('Trainset saved')
     Save_As_Json(PATH, test_data, 'test_preprocessed_data.json')
