@@ -103,7 +103,6 @@ class Kwav2vec_classfier(nn.Module):
             nn.GELU(),
             nn.Dropout(self.args.dropout),
             nn.Linear(self.args.output_dim, self.args.num_labels),
-            nn.Softmax(dim=0)
         ).to(self.args.cuda)
 
         self.projection = nn.Conv1d(1024, self.args.projection_dim, kernel_size=1, padding=0, bias=False).to(self.args.cuda)
